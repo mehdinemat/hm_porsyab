@@ -13,29 +13,30 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { IoLogoGoogle } from "react-icons/io5";
 import useSWRMutation from "swr/mutation";
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
 });
 
-const postRequest = (url , {arg})=>{
-  return axios.post(baseUrl + url , arg)
+const postRequest = (url, { arg }) => {
+  return axios.post(baseUrl + url, arg)
 }
 
 const Index = () => {
 
   const router = useRouter()
-  
-  const { register:registerUser, setValue:setValueUser, getValues:getValuesUser, handleSubmit:handleSubmitUser } = useForm();
+
+  const { register: registerUser, setValue: setValueUser, getValues: getValuesUser, handleSubmit: handleSubmitUser } = useForm();
 
   const { trigger, isLoading, isMutating } = useSWRMutation(
-    "user/auth/send-code" , postRequest , {onSuccess:()=>{
-        router.replace(`/verify_code?phone=${getValues('phone')}`)
-    }}
+    "user/auth/send-code", postRequest, {
+    onSuccess: () => {
+      router.replace(`/verify_code?phone=${getValues('phone')}`)
+    }
+  }
   );
-  
-  const handleLogin =(e)=>{
+
+  const handleLogin = (e) => {
     trigger(e)
   }
 
@@ -64,8 +65,11 @@ const Index = () => {
             as={'form'}
             onSubmit={handleSubmitUser(handleLogin)}
           >
-            <Image src="./loginlogo.png" width={{ base: '120px', md: "165px" }} height={"68px"} />
-            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} textAlign={'center'} w={"327px"} mb={"20px"}>
+            <Image
+              src="/porsyab.png"
+              width={{ base: "120px", md: "110px" }}
+              height={{ base: "50px", md: "138px" }}
+            />            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} textAlign={'center'} w={"327px"} mb={"20px"}>
               شبکه اجتماعی پرسش و پاسخ دینی
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />

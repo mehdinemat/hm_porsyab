@@ -13,11 +13,10 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoLogoGoogle } from "react-icons/io5";
-import useSWRMutation from "swr/mutation";
 import { useTranslation } from "react-i18next";
+import useSWRMutation from "swr/mutation";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
@@ -102,9 +101,9 @@ const Index = () => {
             height={"100%"}
           >
             <Image
-              src="../../loginlogo.png"
-              width={{ base: "120px", md: "165px" }}
-              height={"68px"}
+              src="/porsyab.png"
+              width={{ base: "120px", md: "110px" }}
+              height={{ base: "50px", md: "138px" }}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
@@ -149,7 +148,7 @@ const Index = () => {
               type="submit"
               isLoading={isMutating}
             >
-             {t('login')}
+              {t('login')}
             </Button>
           </VStack>
         </Box>

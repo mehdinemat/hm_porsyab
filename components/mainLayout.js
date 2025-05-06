@@ -196,9 +196,9 @@ const MainLayout = ({ children }) => {
                 cursor={"pointer"}
               />
               <Image
-                src="../../parsaheader.png"
-                width={{ base: "57px", md: "91px" }}
-                height={{ base: "23px", md: "37px" }}
+                src="/porsyab.png"
+                width={{ base: "57px", md: "40px" }}
+                height={{ base: "23px", md: "58px" }}
                 onClick={handleClickHome}
                 cursor={"pointer"}
               />
@@ -384,7 +384,7 @@ const MainLayout = ({ children }) => {
                     height={"72px"}
                   />
                   <Image
-                    src="../../parsaheader.png"
+                    src="../../porsyab.png"
                     width={"118px"}
                     height={"48px"}
                   />

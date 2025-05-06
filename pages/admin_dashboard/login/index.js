@@ -51,8 +51,11 @@ const Index = () => {
             justifyContent={"center"}
             height={"100%"}
           >
-            <Image src="../../loginlogo.png" width={{ base: '120px', md: "165px" }} height={{ base: '50px', md: "68px" }} />
-            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} w={"327px"} mb={"20px"}>
+            <Image
+              src="/porsyab.png"
+              width={{ base: "120px", md: "110px" }}
+              height={{ base: "50px", md: "138px" }}
+            />            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} w={"327px"} mb={"20px"}>
               شبکه اجتماعی پرسش و پاسخ دینی
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />
