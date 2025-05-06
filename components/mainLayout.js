@@ -189,16 +189,16 @@ const MainLayout = ({ children }) => {
                 <AdminMenuBar />
               )}
               <Image
-                src="../../question.png"
-                width={{ base: "25px", md: "40px" }}
-                height={{ base: "35px", md: "56px" }}
+                src="/porsyab_header.png"
+                width={{ base: "57px", md: "40px" }}
+                height={{ base: "23px", md: "36px" }}
                 onClick={handleClickHome}
                 cursor={"pointer"}
               />
               <Image
-                src="/porsyab.png"
-                width={{ base: "57px", md: "40px" }}
-                height={{ base: "23px", md: "58px" }}
+                src="../../porsyab_footer.png"
+                width={{ base: "25px", md: "40px" }}
+                height={{ base: "35px", md: "36px" }}
                 onClick={handleClickHome}
                 cursor={"pointer"}
               />
@@ -374,19 +374,19 @@ const MainLayout = ({ children }) => {
               >
                 <VStack
                   alignItems={"center"}
-                  gap={"20px"}
+                  gap={"10px"}
                   height={"100%"}
                   w={"100%"}
                 >
                   <Image
-                    src="../../question.png"
+                    src="/porsyab_header.png"
                     width={"51px"}
-                    height={"72px"}
+                    height={"62px"}
                   />
                   <Image
-                    src="/porsyab.png"
+                    src="/porsyab_footer.png"
                     width={"70px"}
-                    height={"80px"}
+                    height={"50px"}
                   />
                   <Text w={"326px"} fontSize={"16px"}>
                     {t("footer_parsa_info")}
@@ -521,7 +521,7 @@ const MainLayout = ({ children }) => {
             p={4}
             textAlign="center"
             w={"100%"}
-            bgColor={"#3646B3"}
+            bgColor={"#006b74"}
           >
             تمامی حقوق این وبسایت متعلق به موسسه هوش مصنوعی و تمدن اسلامی (همتا)
             است.
