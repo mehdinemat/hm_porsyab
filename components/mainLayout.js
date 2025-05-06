@@ -384,9 +384,9 @@ const MainLayout = ({ children }) => {
                     height={"72px"}
                   />
                   <Image
-                    src="../../porsyab.png"
-                    width={"118px"}
-                    height={"48px"}
+                    src="/porsyab.png"
+                    width={"70px"}
+                    height={"80px"}
                   />
                   <Text w={"326px"} fontSize={"16px"}>
                     {t("footer_parsa_info")}
