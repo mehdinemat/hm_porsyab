@@ -20,8 +20,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { IoIosArrowDown, IoIosMenu } from "react-icons/io";
 import { useTranslation } from "react-i18next";
+import { IoIosArrowDown, IoIosMenu } from "react-icons/io";
 
 const menuList = [
   {
@@ -88,7 +88,7 @@ const MenuBar = () => {
       />
       <Drawer placement="right" onClose={onClose} isOpen={isOpen} size={"xs"}>
         <DrawerOverlay />
-        <DrawerContent bg="#3646B3" color="white">
+        <DrawerContent bg="#006b74" color="white">
           <DrawerHeader
             as={VStack}
             w={"100%"}
@@ -98,8 +98,8 @@ const MenuBar = () => {
             py={"50px"}
           >
             <HStack>
-              <Image src="/questiongreen.png" w={"42px"} h={"56px"} />
-              <Image src="/parsaw.png" w={"91px"} h={"37px"} />
+              <Image src="/porsyab_header.png" w={"42px"} h={"56px"} />
+              <Image src="/porsyab_footer.png" w={"91px"} h={"37px"} />
             </HStack>
             <Text fontSize={"md"} fontWeight={"normal"} color={"white"}>
               {t("religious")}
@@ -142,15 +142,15 @@ const MenuBar = () => {
                     py={2}
                     transition="all 0.2s"
                     w={"100%"}
-                    bgColor={"#3646B3"}
+                    bgColor={"#006b74"}
                   >
                     <HStack w={"100%"} justifyContent={"space-between"}>
                       <Text fontSize={"sm"}>
                         {locale == "en"
                           ? t("header_english")
                           : locale == "fa"
-                          ? t("header_persian")
-                          : locale == "ar" && t("header_arabic")}
+                            ? t("header_persian")
+                            : locale == "ar" && t("header_arabic")}
                       </Text>
                       <IoIosArrowDown />
                     </HStack>

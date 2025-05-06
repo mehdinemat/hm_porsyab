@@ -190,14 +190,14 @@ const MainLayout = ({ children }) => {
               )}
               <Image
                 src="/porsyab_header.png"
-                width={{ base: "57px", md: "40px" }}
+                width={{ base: "42px", md: "40px" }}
                 height={{ base: "23px", md: "36px" }}
                 onClick={handleClickHome}
                 cursor={"pointer"}
               />
               <Image
                 src="../../porsyab_footer.png"
-                width={{ base: "25px", md: "40px" }}
+                width={{ base: "50px", md: "40px" }}
                 height={{ base: "35px", md: "36px" }}
                 onClick={handleClickHome}
                 cursor={"pointer"}
@@ -381,7 +381,7 @@ const MainLayout = ({ children }) => {
                   <Image
                     src="/porsyab_header.png"
                     width={"51px"}
-                    height={"62px"}
+                    height={"52px"}
                   />
                   <Image
                     src="/porsyab_footer.png"
