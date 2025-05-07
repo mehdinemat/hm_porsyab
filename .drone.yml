@@ -22,7 +22,7 @@ steps:
       - echo "172.30.0.112 git.t.etratnet.ir" >> /etc/hosts
       - git config --global credential.helper store
       - echo $GITEA_DEPLOY_TOKEN
-      - GIT_SSL_NO_VERIFY=true git clone --branch porsyab https://drone-deploy:$GITEA_DEPLOY_TOKEN@git.t.etratnet.ir/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}.git
+      - GIT_SSL_NO_VERIFY=true git clone --branch porsyab --single-branch https://drone-deploy:$GITEA_DEPLOY_TOKEN@git.t.etratnet.ir/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}.git
   
   - name: build-image
     image: docker.arvancloud.ir/docker
