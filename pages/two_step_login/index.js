@@ -7,7 +7,7 @@ import {
   Image,
   Input,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import dynamic from "next/dynamic";
@@ -19,26 +19,32 @@ const Lottie = dynamic(() => import("lottie-react"), {
 });
 
 const postRequest = (url, { arg }) => {
-  return axios.post(baseUrl + url, arg)
-}
+  return axios.post(baseUrl + url, arg);
+};
 
 const Index = () => {
+  const router = useRouter();
 
-  const router = useRouter()
-
-  const { register: registerUser, setValue: setValueUser, getValues: getValuesUser, handleSubmit: handleSubmitUser } = useForm();
+  const {
+    register: registerUser,
+    setValue: setValueUser,
+    getValues: getValuesUser,
+    handleSubmit: handleSubmitUser,
+  } = useForm();
 
   const { trigger, isLoading, isMutating } = useSWRMutation(
-    "user/auth/send-code", postRequest, {
-    onSuccess: () => {
-      router.replace(`/verify_code?phone=${getValues('phone')}`)
+    "user/auth/send-code",
+    postRequest,
+    {
+      onSuccess: () => {
+        router.push(`/verify_code?phone=${getValues("phone")}`);
+      },
     }
-  }
   );
 
   const handleLogin = (e) => {
-    trigger(e)
-  }
+    trigger(e);
+  };
 
   return (
     <Box
@@ -52,7 +58,7 @@ const Index = () => {
     >
       <HStack height={"100%"}>
         <Box
-          w={{ base: '100%', md: "40%" }}
+          w={{ base: "100%", md: "40%" }}
           alignItems={"center"}
           justifyContent={"center"}
           as={HStack}
@@ -62,32 +68,45 @@ const Index = () => {
             mt={"20px"}
             justifyContent={"center"}
             height={"100%"}
-            as={'form'}
+            as={"form"}
             onSubmit={handleSubmitUser(handleLogin)}
           >
             <Image
               src="/porsyab.png"
               width={{ base: "120px", md: "110px" }}
               height={{ base: "50px", md: "138px" }}
-            />            <Text fontSize={{ base: '20px', md: "23px" }} color={"#333333"} textAlign={'center'} w={"327px"} mb={"20px"}>
+            />{" "}
+            <Text
+              fontSize={{ base: "20px", md: "23px" }}
+              color={"#333333"}
+              textAlign={"center"}
+              w={"327px"}
+              mb={"20px"}
+            >
               شبکه اجتماعی پرسش و پاسخ دینی
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />
-            <Text fontSize={{ base: '20px', md: "25px" }} mt={"20px"}>
+            <Text fontSize={{ base: "20px", md: "25px" }} mt={"20px"}>
               ورود دو مرحله ای به حساب کاربری
             </Text>
             <Input
               height={"46px"}
               placeholder="شماره همراه"
               my={"10px"}
-              {...registerUser('phone')}
+              {...registerUser("phone")}
               sx={{
                 "::placeholder": {
                   textAlign: "center", // this line is also needed to target the placeholder itself
                 },
               }}
             />
-            <Button w={"100%"} bgColor={"#29CCCC"} height={"46px"} my={"20px"} type="submit">
+            <Button
+              w={"100%"}
+              bgColor={"#29CCCC"}
+              height={"46px"}
+              my={"20px"}
+              type="submit"
+            >
               ورود
             </Button>
             {/* <Button
@@ -100,7 +119,12 @@ const Index = () => {
             </Button> */}
           </VStack>
         </Box>
-        <Box position="relative" w="60%" h="100%" display={{ base: "none", md: 'flex' }}>
+        <Box
+          position="relative"
+          w="60%"
+          h="100%"
+          display={{ base: "none", md: "flex" }}
+        >
           {/* Base / background image */}
           <Image src="./loginbg.png" objectFit="cover" w="100%" h="100%" />
 

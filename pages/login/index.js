@@ -41,7 +41,7 @@ const Index = () => {
     postRequest, {
     onSuccess: (data) => {
       if (data?.data?.data) {
-        router.replace(`/two_step_login/verify_code?code=${data?.data?.data}&username=${getValues('username')}`)
+        router.push(`/two_step_login/verify_code?code=${data?.data?.data}&username=${getValues('username')}`)
       } else {
         toast({
           title: "خطا",

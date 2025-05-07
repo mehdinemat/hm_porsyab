@@ -11,7 +11,6 @@ import {
   Grid,
   GridItem,
   HStack,
-  Image,
   Input,
   InputGroup,
   InputRightElement,
@@ -28,6 +27,7 @@ import QuestionMCard from "@/components/home/mobile/questionMCard";
 import Pagination from "@/components/pagination";
 import QuestionCard from "@/components/questionCars";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoSearch } from "react-icons/io5";
@@ -47,6 +47,8 @@ const geistMono = Geist_Mono({
 
 const Index = ({ children }) => {
   const { t } = useTranslation();
+
+  const router = useRouter();
 
   const [page, setPage] = useState(1);
 
@@ -69,7 +71,12 @@ const Index = ({ children }) => {
   } = useSWR(`user/question/spell-correction?content=${filters?.search}`);
 
   const handleNewQuestionButton = () => {
-    router.replace("/new_question");
+    router.push("/new_question");
+  };
+  const handleCurrectClick = (currect) => {
+    router.push(
+      `/result_search?search=${currect}&search_type=${filters?.search_type}`
+    );
   };
 
   return (
@@ -196,7 +203,7 @@ const Index = ({ children }) => {
             p={{ base: 0, md: "6" }}
             order={{ base: 1, md: 2 }}
             as={GridItem}
-            colSpan={{ md: 2 }}
+            colSpan={{ md: 3 }}
             w="100%"
             overflowWrap="break-word"
             wordBreak="break-word"
@@ -225,12 +232,27 @@ const Index = ({ children }) => {
                     {filters?.search}
                   </Text>
                 </HStack>
-                {filters?.search != dataCurrection?.data?.data?.spell_correction_text && <HStack>
-                  <Text fontSize={"16px"}>
-                    آیا منظور شما{" "}
-                    {dataCurrection?.data?.data?.spell_correction_text} بود؟
-                  </Text>
-                </HStack>}
+                {(filters?.search !=
+                  dataCurrection?.data?.data?.spell_correction_text && dataCurrection?.data?.data?.spell_correction_text) && (
+                    <HStack>
+                      <Text fontSize={"16px"}>
+                        آیا منظور شما{" "}
+                        <Text
+                          as={"span"}
+                          color={"blue.500"}
+                          cursor={"pointer"}
+                          onClick={(e) =>
+                            handleCurrectClick(
+                              dataCurrection?.data?.data?.spell_correction_text
+                            )
+                          }
+                        >
+                          {dataCurrection?.data?.data?.spell_correction_text}
+                        </Text>{" "}
+                        بود؟
+                      </Text>
+                    </HStack>
+                  )}
               </VStack>
               <Button
                 width={{ base: "152px", md: "189px" }}
@@ -247,7 +269,7 @@ const Index = ({ children }) => {
                 سؤال خود را بپرسید
               </Button>
             </HStack>
-            <HStack w={"100%"} justifyContent={"space-between"} mb={'20px'}>
+            <HStack w={"100%"} justifyContent={"space-between"} mb={"20px"}>
               <Text w={"full"}>
                 {dataQuestionSearch?.data?.total_count} نتیجه (۲/۴۶ ثانیه)
               </Text>
@@ -304,8 +326,7 @@ const Index = ({ children }) => {
                   alignItems={"center"}
                 >
                   <Pagination
-                    totalPages={dataQuestionSearch?.data?.total_count
-                    }
+                    totalPages={dataQuestionSearch?.data?.total_count}
                     currentPage={page}
                     onPageChange={setPage}
                     t={t}
@@ -322,7 +343,7 @@ const Index = ({ children }) => {
           </Box>
 
           {/* Left Sidebar */}
-          <Box
+          {/* <Box
             order={3}
             as={GridItem}
             colSpan={"1"}
@@ -360,7 +381,7 @@ const Index = ({ children }) => {
                 </HStack>
               </VStack>
             </Box>
-          </Box>
+          </Box> */}
         </Grid>
       </Box>
     </MainLayout>

@@ -28,7 +28,7 @@
     "similar_question":"Similar Question Retrieval Service",
     "intelligent_question":"Intelligent Question Search Engine",
     "social_media":"Social Media",
-    "address":"No. 7, Parastoo Alley, Ayatollah Saeedi Street, Yousefpouri, Babol, Mazandaran, Iran",
+   "address": "Iran – Qom – Dourshahr Street – Alley 17 – No. 13-15",
     "topics":"Topics",
     "suggested_questions":"Suggested Questions",
     "ask_your_question":"Ask Your Question",
@@ -102,7 +102,8 @@
   "all_products": "All Products",
    "resources": "Resources",
     "products": "Products",
-    "institute": "Institute for Artificial Intelligence and Islamic Civilization (Hamta)"
+    "institute": "Institute for Artificial Intelligence and Islamic Civilization (Hamta)",
+    "answers":"answers"
 
     
     

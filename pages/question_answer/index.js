@@ -2,7 +2,6 @@ import { baseUrl } from "@/components/lib/api";
 import MainLayout from "@/components/mainLayout";
 import {
   Avatar,
-  AvatarGroup,
   Badge,
   Box,
   Button,
@@ -20,8 +19,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
+import moment from "moment-jalaali";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import {
   IoArrowDown,
   IoArrowUp,
@@ -33,9 +35,6 @@ import {
 } from "react-icons/io5";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import moment from "moment-jalaali";
-import { useTranslation } from "react-i18next";
-import Head from "next/head";
 
 const postRequest = (url, { arg: { id, ...data } }) => {
   return axios.post(baseUrl + url + `?id=${id}`, data, {
@@ -89,6 +88,11 @@ const Index = () => {
       `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
   );
 
+  const { data: dataQuestionSimilar, isLoading: isLoadingSimilar } = useSWR(
+    dataQuestion?.data &&
+      `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
+  );
+
   const { trigger: triggerAnswer, isLoading: isLoadingAnswer } = useSWRMutation(
     `user/question/answer`,
     postRequest
@@ -113,7 +117,11 @@ const Index = () => {
   };
 
   const handleNewQuestionButton = () => {
-    router.replace("/new_question");
+    router.push("/new_question");
+  };
+
+  const handleSimilarClick = (id) => {
+    router.push(`question_answer?id=${id}`);
   };
 
   return (
@@ -154,7 +162,6 @@ const Index = () => {
                 size={"sm"}
                 onClick={(e) => handleAddAction("question", "like")}
               />
-              <Text>6</Text>
               <IconButton
                 icon={<IoArrowDown color="gray" />}
                 variant={"outline"}
@@ -223,28 +230,6 @@ const Index = () => {
                               dataQuestion?.data?.result?.[0]?.created_at
                             ).format("jYYYY/jMM/jDD")}
                           </Text>
-                          {/* <AvatarGroup size="sm" max={2}>
-                          <Avatar
-                            name="Ryan Florence"
-                            src="https://bit.ly/ryan-florence"
-                          />
-                          <Avatar
-                            name="Segun Adebayo"
-                            src="https://bit.ly/sage-adebayo"
-                          />
-                          <Avatar
-                            name="Kent Dodds"
-                            src="https://bit.ly/kent-c-dodds"
-                          />
-                          <Avatar
-                            name="Prosper Otemuyiwa"
-                            src="https://bit.ly/prosper-baba"
-                          />
-                          <Avatar
-                            name="Christian Nwamba"
-                            src="https://bit.ly/code-beast"
-                          />
-                        </AvatarGroup> */}
                         </HStack>
                       </HStack>
                       <Button
@@ -301,7 +286,6 @@ const Index = () => {
                         handleAddAction("question", "save_message")
                       }
                     />
-                    <Text>6</Text>
                     <IconButton
                       icon={<IoArrowDown color="gray" />}
                       variant={"outline"}
@@ -322,8 +306,12 @@ const Index = () => {
                 {isLoadingQuestion ? (
                   <Spinner />
                 ) : (
-                  <VStack>
-                    <Text lineHeight={"taller"}>
+                  <VStack w={"100%"} alignItems={"start"}>
+                    <Text
+                      lineHeight={"taller"}
+                      textAlign={"justify"}
+                      fontSize={"18px"}
+                    >
                       {dataQuestion?.data?.result?.[0]?.content}
                     </Text>
                     <Image
@@ -442,7 +430,6 @@ const Index = () => {
                             borderRadius={"100%"}
                             size={"sm"}
                           />
-                          <Text>6</Text>
                           <IconButton
                             icon={<IoArrowDown color="gray" />}
                             variant={"outline"}
@@ -468,7 +455,13 @@ const Index = () => {
                           />
                         </VStack>
                         <VStack w={"100%"} alignItems={"start"}>
-                          <Text lineHeight={"taller"} w={"fit-content"}>
+                          <Text
+                            lineHeight={"taller"}
+                            w={"fit-content"}
+                            textAlign={"justify"}
+                            fontSize={"18px"}
+                            whiteSpace="pre-wrap"
+                          >
                             {dataQuestionAnswer?.data?.[0]?.content}
                           </Text>
                           <HStack
@@ -555,7 +548,7 @@ const Index = () => {
                                 />
                               </HStack>
                             </HStack>
-                            <Stack
+                            {/* <Stack
                               direction={{ base: "column", md: "row" }}
                               w={"100%"}
                             >
@@ -573,149 +566,11 @@ const Index = () => {
                                   ۴ {t("days_ago")}
                                 </Text>
                               </HStack>
-                            </Stack>
-                            <Divider borderColor={"#EBEBEB"} my={"10px"} />
-                            <Stack
-                              direction={{ base: "column", md: "row" }}
-                              w={"100%"}
-                            >
-                              <Text
-                                fontSize={"sm"}
-                                color={"gray"}
-                                lineHeight={"taller"}
-                              >
-                                لورم ایپسوم متن ساختگی با تولید سادگی از صنعت
-                                چاپ، و با استفاده از طراحان گرافیک است.
-                              </Text>
-                              <HStack>
-                                <Text color={"#3646B3"}>حسن الماسی</Text>
-                                <Text color={"gray"} fontSize={"sm"}>
-                                  ۴ {t("days_ago")}
-                                </Text>
-                              </HStack>
-                            </Stack>
-                            <Divider borderColor={"#EBEBEB"} my={"10px"} />
-                            <Stack
-                              direction={{ base: "column", md: "row" }}
-                              w={"100%"}
-                            >
-                              <Text
-                                fontSize={"sm"}
-                                color={"gray"}
-                                lineHeight={"taller"}
-                              >
-                                لورم ایپسوم متن ساختگی با تولید سادگی از صنعت
-                                چاپ، و با استفاده از طراحان گرافیک است.
-                              </Text>
-                              <HStack>
-                                <Text color={"#3646B3"}>حسن الماسی</Text>
-                                <Text color={"gray"} fontSize={"sm"}>
-                                  ۴ {t("days_ago")}
-                                </Text>
-                              </HStack>
-                            </Stack>
+                            </Stack> */}
                           </Box>
                         </VStack>
                       </HStack>
                       <Divider mt={"20px"} borderColor={"gray.200"} />
-                      {/* <HStack alignItems={"start"} gap={"10px"} my={"20px"}>
-                      <VStack>
-                        <IconButton
-                          icon={<IoArrowUp color="gray" />}
-                          variant={"outline"}
-                          colorScheme="gray"
-                          borderRadius={"100%"}
-                          size={"sm"}
-                        />
-                        <Text>6</Text>
-                        <IconButton
-                          icon={<IoArrowDown color="gray" />}
-                          variant={"outline"}
-                          colorScheme="gray"
-                          borderRadius={"100%"}
-                          size={"sm"}
-                        />
-                        <IconButton
-                          icon={<IoCheckmark color="white" />}
-                          variant={"ghost"}
-                          bgColor="#29CCCC"
-                          borderRadius={"100%"}
-                          size={"sm"}
-                        />
-                        <IconButton
-                          icon={
-                            <IoBookmarkOutline color="gray" fontSize={"20px"} />
-                          }
-                          size={"sm"}
-                        />
-                      </VStack>
-                      <VStack w={"100%"} alignItems={"start"}>
-                        <Text lineHeight={"taller"}>
-                         {dataQuestionAnswer?.data?.[0]?.content}
-                        </Text>
-                        <HStack
-                          w={"100%"}
-                          justifyContent={{
-                            base: "start",
-                            md: "space-between",
-                          }}
-                          my={"10px"}
-                        >
-                          <HStack order={{ base: 2 }}>
-                            <Avatar
-                              width={"28px"}
-                              height={"28px"}
-                              order={{ base: 2 }}
-                            />
-                            <Text
-                              color={"gray"}
-                              fontSize={"sm"}
-                              order={{ base: 1 }}
-                            >
-                              اسلام کوئست
-                            </Text>
-                          </HStack>
-                          <HStack order={{ base: 1 }}>
-                            <Text fontSize={"sm"} color={"gray.500"}>
-                              ۲۱ ساعت قبل
-                            </Text>
-                            <Divider
-                              height={"10px"}
-                              borderColor={"#EBEBEB"}
-                              orientation="vertical"
-                            />
-                            {slidesToShow != 1 && (
-                              <HStack gap={0} alignItems={"center"}>
-                                <Button
-                                  colorScheme="gray"
-                                  color={"gray"}
-                                  variant={"ghost"}
-                                  fontWeight={"normal"}
-                                  size={"sm"}
-                                >
-                                  گزارش محتوای نامناسب
-                                </Button>
-                                <IoWarningOutline color="gray" />
-                              </HStack>
-                            )}
-                          </HStack>
-                        </HStack>
-                        {slidesToShow == 1 && (
-                          <HStack gap={0} alignItems={"center"}>
-                            <Button
-                              colorScheme="gray"
-                              color={"gray"}
-                              variant={"ghost"}
-                              fontWeight={"normal"}
-                              size={"sm"}
-                            >
-                              گزارش محتوای نامناسب
-                            </Button>
-                            <IoWarningOutline color="gray" />
-                          </HStack>
-                        )}
-                      </VStack>
-                    </HStack> */}
                     </Box>
                     <Box
                       w={{ base: "fit-content", md: "100%" }}
@@ -799,73 +654,19 @@ const Index = () => {
                   <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
                     {t("related_questions")}
                   </Text>
-                  <HStack alignItems={"start"}>
-                    <Badge
-                      bgColor={"#29CCCC"}
-                      color={"white"}
-                      paddingY={"2px"}
-                      px={"10px"}
-                      borderRadius={"5px"}
+                  {dataQuestionSimilar?.data?.slice(0, 5)?.map((similar , index) => (
+                    <HStack
+                      w={"100%"}
+                      py={"5px"}
+                      alignItems={"start"}
+                      borderBottom={index != 4 && "1px"}
+                      borderBottomColor={"gray.200"}
+                      cursor={"pointer"}
+                      onClick={(e) => handleSimilarClick(similar?.id)}
                     >
-                      6
-                    </Badge>
-                    <Text fontSize={"sm"}>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                  </HStack>
-                  <Divider />
-                  <HStack alignItems={"start"}>
-                    <Badge
-                      bgColor={"#29CCCC"}
-                      color={"white"}
-                      paddingY={"2px"}
-                      px={"10px"}
-                      borderRadius={"5px"}
-                    >
-                      6
-                    </Badge>
-                    <Text fontSize={"sm"}>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                  </HStack>
-                  <Divider />
-                  <HStack alignItems={"start"}>
-                    <Badge
-                      bgColor={"#29CCCC"}
-                      color={"white"}
-                      paddingY={"2px"}
-                      px={"10px"}
-                      borderRadius={"5px"}
-                    >
-                      6
-                    </Badge>
-                    <Text fontSize={"sm"}>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                  </HStack>
-                  <Divider />
-                  <HStack alignItems={"start"}>
-                    <Badge
-                      bgColor={"#29CCCC"}
-                      color={"white"}
-                      paddingY={"2px"}
-                      px={"10px"}
-                      borderRadius={"5px"}
-                    >
-                      6
-                    </Badge>
-                    <Text fontSize={"sm"}>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                  </HStack>
+                      <Text fontSize={"sm"}>{similar?.content}</Text>
+                    </HStack>
+                  ))}
                 </Box>
                 <Box
                   as={VStack}
@@ -880,93 +681,35 @@ const Index = () => {
                   <Text fontWeight={"bold"} fontSize={"16px"} mb={"10px"}>
                     {t("most_viewed_questions")}
                   </Text>
-                  <VStack alignItems={"start"}>
-                    <Text>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                    <HStack alignItems={"center"}>
-                      <Badge
-                        bgColor={"#D2D2D2"}
-                        color={"white"}
-                        paddingY={"2px"}
-                        px={"10px"}
-                        borderRadius={"5px"}
-                        w={"24px"}
-                        h={"24px"}
-                      ></Badge>
-                      <Text fontSize={"xs"} color={"#29CCCC"}>
-                        فقه سیاسی
-                      </Text>
-                    </HStack>
-                  </VStack>
-                  <Divider />
-                  <VStack alignItems={"start"}>
-                    <Text>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                    <HStack alignItems={"center"}>
-                      <Badge
-                        bgColor={"#D2D2D2"}
-                        color={"white"}
-                        paddingY={"2px"}
-                        px={"10px"}
-                        borderRadius={"5px"}
-                        w={"24px"}
-                        h={"24px"}
-                      ></Badge>
-                      <Text fontSize={"xs"} color={"#29CCCC"}>
-                        فقه سیاسی
-                      </Text>
-                    </HStack>
-                  </VStack>
-                  <Divider />
-                  <VStack alignItems={"start"}>
-                    <Text>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                    <HStack alignItems={"center"}>
-                      <Badge
-                        bgColor={"#D2D2D2"}
-                        color={"white"}
-                        paddingY={"2px"}
-                        px={"10px"}
-                        borderRadius={"5px"}
-                        w={"24px"}
-                        h={"24px"}
-                      ></Badge>
-                      <Text fontSize={"xs"} color={"#29CCCC"}>
-                        فقه سیاسی
-                      </Text>
-                    </HStack>
-                  </VStack>
-                  <Divider />
-                  <VStack alignItems={"start"}>
-                    <Text>
-                      لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و با
-                      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                      و مجله
-                    </Text>
-                    <HStack alignItems={"center"}>
-                      <Badge
-                        bgColor={"#D2D2D2"}
-                        color={"white"}
-                        paddingY={"2px"}
-                        px={"10px"}
-                        borderRadius={"5px"}
-                        w={"24px"}
-                        h={"24px"}
-                      ></Badge>
-                      <Text fontSize={"xs"} color={"#29CCCC"}>
-                        فقه سیاسی
-                      </Text>
-                    </HStack>
-                  </VStack>
+                  {dataQuestionSimilar?.data
+                    ?.slice(5, 10)
+                    ?.map((related, index) => (
+                      <VStack
+                        w={"100%"}
+                        alignItems={"start"}
+                        borderBottom={index != 4 && "1px"}
+                        borderBottomColor={"gray.200"}
+                        py={"5px"}
+                        cursor={"pointer"}
+                        onClick={(e) => handleSimilarClick(related?.id)}
+                      >
+                        <Text fontSize={"sm"}>{related?.content}</Text>
+                        {/* <HStack alignItems={"center"}>
+                        <Badge
+                          bgColor={"#D2D2D2"}
+                          color={"white"}
+                          paddingY={"2px"}
+                          px={"10px"}
+                          borderRadius={"5px"}
+                          w={"24px"}
+                          h={"24px"}
+                        ></Badge>
+                        <Text fontSize={"xs"} color={"#29CCCC"}>
+                          فقه سیاسی
+                        </Text>
+                      </HStack> */}
+                      </VStack>
+                    ))}
                 </Box>
               </GridItem>
             </Grid>

@@ -15,13 +15,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
+import Head from "next/head";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import Masonry from "react-masonry-css";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import { useTranslation } from "react-i18next";
-import Head from "next/head";
 
 const data = [
   {
@@ -138,14 +138,11 @@ const Index = () => {
             color={"black"}
           >
             <Text fontWeight={"bold"}>{t("question_title")}</Text>
-            <Text>
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-            </Text>
             <Input {...registerQuestion("title")} />
-            <Text fontWeight={"bold"} mt={"20px"}>
+            {/* <Text fontWeight={"bold"} mt={"20px"}>
               {t("related_questions")}
-            </Text>
-            <HStack>
+            </Text> */}
+            {/* <HStack>
               <Text>{t("question_title")}</Text>
               <Badge
                 bgColor={"#23D9D7"}
@@ -155,67 +152,7 @@ const Index = () => {
               >
                 3 {t("answer")}
               </Badge>
-            </HStack>
-            <Divider borderColor={"gray.200"} />
-            <HStack>
-              <Text>
-                اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را به یک بدهکار
-                ورشکسته داد؟
-              </Text>
-              <Badge
-                bgColor={"#23D9D7"}
-                padding={"5px"}
-                borderRadius={"5px"}
-                color={"white"}
-              >
-                3 {t("answer")}
-              </Badge>
-            </HStack>
-            <Divider borderColor={"gray.200"} />
-            <HStack>
-              <Text>
-                اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را به یک بدهکار
-                ورشکسته داد؟
-              </Text>
-              <Badge
-                bgColor={"#23D9D7"}
-                padding={"5px"}
-                borderRadius={"5px"}
-                color={"white"}
-              >
-                3 {t("answer")}
-              </Badge>
-            </HStack>
-            <Divider borderColor={"gray.200"} />
-            <HStack>
-              <Text>
-                اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را به یک بدهکار
-                ورشکسته داد؟
-              </Text>
-              <Badge
-                bgColor={"#23D9D7"}
-                padding={"5px"}
-                borderRadius={"5px"}
-                color={"white"}
-              >
-                3 {t("answer")}
-              </Badge>
-            </HStack>
-            <Divider borderColor={"gray.200"} />
-            <HStack>
-              <Text>
-                اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را به یک بدهکار
-                ورشکسته داد؟
-              </Text>
-              <Badge
-                bgColor={"#23D9D7"}
-                padding={"5px"}
-                borderRadius={"5px"}
-                color={"white"}
-              >
-                3 {t("answer")}
-              </Badge>
-            </HStack>
+            </HStack> */}
             <HStack w={"100%"} justifyContent={"end"} mt={"20px"}>
               <Button bgColor={"#23D9D7"}>{t("next_step")}</Button>
             </HStack>
@@ -291,7 +228,7 @@ const Index = () => {
             bgColor={"#fef4e2"}
           >
             <Text fontWeight={"bold"} color={"black"}>
-              {t("related_questions")}
+              {t("suggested_questions")}
             </Text>
             <Text color={"black"} my={"10px"}>
               لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
@@ -398,7 +335,7 @@ const Index = () => {
             <Text>
               لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
             </Text>
-            
+
             <MultiSelectComboBox
               selectedOptions={selectedOptions}
               setSelectedOptions={setSelectedOptions}
@@ -411,7 +348,7 @@ const Index = () => {
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
-            
+
             <HStack w={"100%"} justifyContent={"end"} mt={"20px"}>
               <Button bgColor={"#23D9D7"} type={"submit"}>
                 {t("submit_your_question")}

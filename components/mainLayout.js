@@ -5,6 +5,7 @@ import {
   Collapse,
   Container,
   Fade,
+  Flex,
   Grid,
   GridItem,
   HStack,
@@ -45,6 +46,7 @@ import {
   IoLogoYoutube,
 } from "react-icons/io";
 import { IoCall, IoExitOutline, IoLocation, IoSearch } from "react-icons/io5";
+import { PiDiamondThin } from "react-icons/pi";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import AdminMenuBar from "./admin_dashboard/adminMenuBar";
 import UserMenuBar from "./mobile/dashboard/userMenuBar";
@@ -71,13 +73,16 @@ const MainLayout = ({ children }) => {
   const { t } = useTranslation();
 
   const router = useRouter();
-  const { locale } = router;
+  const { locale, asPath } = router;
 
   const [filters, setFilters] = useQueryParams({
     search: withDefault(StringParam, ""),
   });
 
   const [search, setSearch] = useState("");
+
+  const [hideHeaderButton, setHideHeaderButton] = useState(false);
+  const scrollContainerRef = useRef(null);
 
   const [activePath, setActivePath] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
@@ -106,12 +111,11 @@ const MainLayout = ({ children }) => {
     }
   };
 
-  const handleBuy = () => {
-    onOpen();
-  };
-
   const handleClickSearch = () => {
-    router.replace(`/result_search?search=${search}`);
+    router.push(`/result_search?search=${search}&search_type=search`);
+  };
+  const handleClickSemanticSearch = () => {
+    router.push(`/result_search?search=${search}search_type=semantic_search`);
   };
 
   const handleToggle = () => {
@@ -122,11 +126,11 @@ const MainLayout = ({ children }) => {
   };
 
   const handleClickMenuLink = (link) => {
-    router.replace(link);
+    router.push(link);
   };
 
   const handleClickHome = () => {
-    router.replace("/");
+    router.push("/");
   };
 
   useEffect(() => {
@@ -134,8 +138,8 @@ const MainLayout = ({ children }) => {
       _.includes(router.asPath.toLowerCase(), "admin_dashboard")
         ? 2
         : _.includes(router.asPath.toLowerCase(), "dashboard")
-          ? 1
-          : 0
+        ? 1
+        : 0
     );
   }, [router]);
 
@@ -144,8 +148,29 @@ const MainLayout = ({ children }) => {
   }, []);
 
   const handleLoginButton = () => {
-    router.replace("/login");
+    router.push("/login");
   };
+
+  const handleFooterLink = (link) => {
+    router.push(link);
+  };
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollY = container.scrollTop;
+      setHideHeaderButton(scrollY >= 350); // you can use scrollY >= 500 to toggle button
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    console.log(asPath == "/");
+  }, [asPath]);
 
   return (
     <VStack minHeight="100vh" w={"100%"} alignItems={"start"} gap={0}>
@@ -202,25 +227,41 @@ const MainLayout = ({ children }) => {
                 onClick={handleClickHome}
                 cursor={"pointer"}
               />
-              <InputGroup
-                width={"327px"}
-                display={{ base: "none", md: "block" }}
-              >
-                <Input
-                  height={"46px"}
-                  placeholder={t("search")}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <InputRightElement h="100%">
-                  <IoSearch
-                    fontSize="20px"
-                    style={{ marginTop: "2px" }}
-                    color="#29CCCC"
-                    onClick={handleClickSearch}
-                    cursor={'pointer'}
+              {(hideHeaderButton || !(asPath == "/")) && (
+                <InputGroup
+                  width={"327px"}
+                  display={{ base: "none", md: "block" }}
+                >
+                  <Input
+                    height={"46px"}
+                    placeholder={t("search")}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleClickSearch();
+                      }
+                    }}
                   />
-                </InputRightElement>
-              </InputGroup>
+                  <InputRightElement h="100%" ml="20px">
+                    <Flex align="center" gap="2">
+                      <IoSearch
+                        fontSize="20px"
+                        style={{ marginTop: "2px" }}
+                        color="#29CCCC"
+                        onClick={handleClickSearch}
+                        cursor={"pointer"}
+                      />
+                      <PiDiamondThin
+                        fontSize="20px"
+                        style={{ marginTop: "2px" }}
+                        color="#29CCCC"
+                        onClick={handleClickSemanticSearch}
+                        cursor={"pointer"}
+                      />
+                    </Flex>
+                  </InputRightElement>
+                </InputGroup>
+              )}
             </HStack>
             <HStack
               w={"100%"}
@@ -284,8 +325,8 @@ const MainLayout = ({ children }) => {
                     {locale == "en"
                       ? t("header_english")
                       : locale == "fa"
-                        ? t("header_persian")
-                        : locale == "ar" && t("header_arabic")}
+                      ? t("header_persian")
+                      : locale == "ar" && t("header_arabic")}
                   </Text>
                   <IoIosArrowDown />
                 </HStack>
@@ -343,13 +384,13 @@ const MainLayout = ({ children }) => {
         </HStack>
       </Box>
       {/* header */}
-
       <HStack
         height={"calc( 100vh )"}
         w={"100%"}
         gap={0}
         alignItems={"start"}
         overflowY={"scroll"}
+        ref={scrollContainerRef}
       >
         {/* Main content area */}
         <VStack height={"calc( 100vh - 76px )"} w={"100%"} gap={0}>
@@ -418,10 +459,13 @@ const MainLayout = ({ children }) => {
                     <ListItem>{t("questions")}</ListItem>
                     <ListItem>{t("tags")}</ListItem>
                     <ListItem>{t("users")}</ListItem>
-                    <ListItem>{t("about_us")}</ListItem>
-                    <ListItem>{t("about_us")}</ListItem>
+                    <ListItem
+                      cursor={"pointer"}
+                      onClick={(e) => handleFooterLink("/aboutus")}
+                    >
+                      {t("about_us")}
+                    </ListItem>
                     <ListItem>{t("terms_of_use")}</ListItem>
-                    <ListItem fontWeight={"thin"}>{t("terms_of_use")}</ListItem>
                   </UnorderedList>
                 </VStack>
                 <VStack
@@ -474,7 +518,7 @@ const MainLayout = ({ children }) => {
                     <IconButton
                       icon={<IoCall color="#29CCCC" fontSize={"20px"} />}
                     />
-                    <Text>۰۹۱۱۱۱۶۹۱۵۶</Text>
+                    <Text>09127468103</Text>
                   </HStack>
                   <VStack alignItems={"start"}>
                     <Text
