@@ -23,6 +23,7 @@ steps:
       - git config --global credential.helper store
       - echo $GITEA_DEPLOY_TOKEN
       - GIT_SSL_NO_VERIFY=true git clone https://drone-deploy:$GITEA_DEPLOY_TOKEN@git.t.etratnet.ir/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}.git
+      - git checkout porsyab
   
   - name: build-image
     image: docker.arvancloud.ir/docker
