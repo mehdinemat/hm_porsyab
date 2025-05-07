@@ -7,7 +7,7 @@ trigger:
     - push
     - custom
   branch:
-    - main
+    - porsyab
     
 clone:
   disable: true
