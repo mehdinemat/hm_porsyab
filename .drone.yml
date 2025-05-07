@@ -24,7 +24,7 @@ steps:
       - echo $GITEA_DEPLOY_TOKEN
       - GIT_SSL_NO_VERIFY=true git clone https://drone-deploy:$GITEA_DEPLOY_TOKEN@git.t.etratnet.ir/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}.git
       - cd parsaqa_front
-      - git fetch origin
+      - GIT_SSL_NO_VERIFY=true git fetch origin
       - git checkout -b porsyab origin/porsyab
   
   - name: build-image
