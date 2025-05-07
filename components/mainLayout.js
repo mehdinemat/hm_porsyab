@@ -241,6 +241,7 @@ const MainLayout = ({ children }) => {
                 )}
               </Fade>
 
+
               <Collapse in={showInput} animateOpacity style={{ marginLeft: 8 }}>
                 <InputGroup size="md" w="150px">
                   <Input
