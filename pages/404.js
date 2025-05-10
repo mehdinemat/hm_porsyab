@@ -23,9 +23,9 @@ const Custom404 = () => {
       >
         <VStack gap={'20px'} my={'80px'} >
           <HStack position={'relative'} w={'100%'} alignItems={'center'} justifyContent={'center'} gap={'10px'}>
-            <Image src={'./second4.png'} w={'105px'} h={'129px'} />
-            <Image src={'./zero.png'} w={'105px'} h={'129px'} />
-            <Image src={'./first4.png'} w={'105px'} h={'129px'} />
+            <Image src={'/second4.png'} w={'105px'} h={'129px'} />
+            <Image src={'/zero.png'} w={'105px'} h={'129px'} />
+            <Image src={'/first4.png'} w={'105px'} h={'129px'} />
           </HStack>
           <Text fontWeight={'bold'} fontSize={'20px'}>صفحه مورد نظر پیدا نشد!</Text>
           <Button bgColor={'#29CCCC'} fontWeight={'normal'} onClick={handleLinkToHomePage}>بازگشت به صفحه اصلی</Button>
