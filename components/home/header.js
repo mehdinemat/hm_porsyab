@@ -170,7 +170,6 @@ const Header = ({
       alignItems={"center"}
       width="100%"
       height={"350px"}
-      bg={"#3646B3"}
       p={2}
       px={4}
       borderBottom={"1px"}
