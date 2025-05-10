@@ -1,9 +1,9 @@
 import { Box, Text } from '@chakra-ui/react';
 import Tree from 'rc-tree';
 import 'rc-tree/assets/index.css';
-import { FiChevronDown, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 
-const SidebarTree = ({ treeData, onLoadData , t , setCategoryId }) => {
+const SidebarTree = ({ treeData, onLoadData, t, setCategoryId }) => {
   return (
     <Box
       w="100%"
@@ -23,7 +23,7 @@ const SidebarTree = ({ treeData, onLoadData , t , setCategoryId }) => {
         {t('topics')}
       </Text>
       <Tree
-      className="custom-tree"
+        className="custom-tree"
         treeData={treeData}
         loadData={onLoadData}
         defaultExpandAll={false}
