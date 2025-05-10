@@ -1,13 +1,22 @@
-import { Box, Text } from '@chakra-ui/react';
-import Tree from 'rc-tree';
-import 'rc-tree/assets/index.css';
-import { FiChevronDown, FiChevronLeft } from 'react-icons/fi';
+import { Box, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import Tree from "rc-tree";
+import "rc-tree/assets/index.css";
+import { FiChevronDown, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const SidebarTree = ({ treeData, onLoadData, t, setCategoryId }) => {
+  const router = useRouter();
+
+  const handleSelecteCategory = (item) => {
+    router.push(
+      `/questions?category_id=${item?.key}&category_title=${item?.title}`
+    );
+  };
+
   return (
     <Box
       w="100%"
-      maxW={{ base: 'calc(100vw - 50px)', md: '100vw' }}
+      maxW={{ base: "calc(100vw - 50px)", md: "100vw" }}
       overflow="hidden"
       wordBreak="break-word"
       order={{ base: 2, md: 1 }}
@@ -20,7 +29,7 @@ const SidebarTree = ({ treeData, onLoadData, t, setCategoryId }) => {
       dir="rtl" // ✅ RTL direction
     >
       <Text fontWeight="bold" fontSize="16px" mb={4}>
-        {t('topics')}
+        {t("topics")}
       </Text>
       <Tree
         className="custom-tree"
@@ -31,7 +40,7 @@ const SidebarTree = ({ treeData, onLoadData, t, setCategoryId }) => {
         height={400}
         onSelect={(selectedKeys, e) => {
           const node = e.node;
-          setCategoryId(node.key);
+          handleSelecteCategory(node);
         }}
         switcherIcon={({ expanded, isLeaf }) =>
           !isLeaf ? (
@@ -44,8 +53,7 @@ const SidebarTree = ({ treeData, onLoadData, t, setCategoryId }) => {
         }
       />
     </Box>
+  );
+};
 
-  )
-}
-
-export default SidebarTree
+export default SidebarTree;

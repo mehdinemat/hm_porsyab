@@ -104,7 +104,12 @@
     "products": "Products",
     "institute": "Institute for Artificial Intelligence and Islamic Civilization (Hamta)",
     "answers":"answers",
-    "login": "Log In"
+    "login": "Log In",
+    "create_account": "Create New Account",
+    "have_account": "Already have an account?",
+    "leave_comment": "Leave a Comment"
+
+
 
     
     

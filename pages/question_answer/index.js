@@ -314,13 +314,13 @@ const Index = () => {
                     >
                       {dataQuestion?.data?.result?.[0]?.content}
                     </Text>
-                    <Image
+                    {/* <Image
                       src="/imageskelete.png"
                       w={"100%"}
                       height={"530px"}
                       my={"10px"}
                       borderRadius={"2px"}
-                    />
+                    /> */}
                     <Stack
                       direction={{ base: "column", md: "row" }}
                       w={"100%"}
@@ -384,14 +384,7 @@ const Index = () => {
                           direction={{ base: "column", md: "row" }}
                           w={"100%"}
                         >
-                          <Text
-                            fontSize={"sm"}
-                            color={"gray"}
-                            lineHeight={"taller"}
-                          >
-                            لورم ایپسوم متن ساختگی با تولید سادگی از صنعت چاپ، و
-                            با استفاده از طراحان گرافیک است.
-                          </Text>
+                       
                           <HStack>
                             <Text color={"#3646B3"}>حسن الماسی</Text>
                             <Text color={"gray"} fontSize={"sm"}>
@@ -472,7 +465,7 @@ const Index = () => {
                             }}
                             mt={"10px"}
                           >
-                            <HStack order={{ base: 2 }}>
+                            {/* <HStack order={{ base: 2 }}>
                               <Avatar
                                 width={"28px"}
                                 height={"28px"}
@@ -485,7 +478,7 @@ const Index = () => {
                               >
                                 اسلام کوئست
                               </Text>
-                            </HStack>
+                            </HStack> */}
                             <HStack order={{ base: 1 }}>
                               <Text fontSize={"sm"} color={"gray.500"}>
                                 {moment(
@@ -540,7 +533,7 @@ const Index = () => {
                               </Text>
                               <HStack>
                                 <Text fontSize={"sm"} color={"gray"}>
-                                  {t("Write Your Comment")}
+                                  {t("leave_comment")}
                                 </Text>
                                 <IconButton
                                   icon={<IoPencil color="gray" />}
@@ -664,7 +657,7 @@ const Index = () => {
                       cursor={"pointer"}
                       onClick={(e) => handleSimilarClick(similar?.id)}
                     >
-                      <Text fontSize={"sm"}>{similar?.content}</Text>
+                      <Text fontSize={"14px"}>{similar?.content}</Text>
                     </HStack>
                   ))}
                 </Box>
@@ -693,7 +686,7 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(related?.id)}
                       >
-                        <Text fontSize={"sm"}>{related?.content}</Text>
+                        <Text fontSize={"14px"}>{related?.content}</Text>
                         {/* <HStack alignItems={"center"}>
                         <Badge
                           bgColor={"#D2D2D2"}

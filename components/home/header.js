@@ -10,19 +10,27 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Spinner,
   Stack,
   Text,
   useBreakpoint,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
-import { IoClose, IoMic, IoMicOutline, IoSearch, IoSendOutline } from "react-icons/io5";
+import {
+  IoClose,
+  IoMic,
+  IoMicOutline,
+  IoSearch,
+  IoSendOutline,
+} from "react-icons/io5";
 import { PiDiamondThin } from "react-icons/pi";
 import useSWRMutation from "swr/mutation";
 import { baseUrl } from "../lib/api";
+import Recorder from "recorder-js";
 
 const siteData = [
   {
@@ -92,12 +100,16 @@ const Header = ({
   const [audioChunks, setAudioChunks] = useState([]);
   const [recordedBlob, setRecordedBlob] = useState(null);
   const [voiceText, setVoiceText] = useState("");
-  const { trigger: uploadAudio } = useSWRMutation(
+  const audioContextRef = useRef(null);
+  const streamRef = useRef(null);
+  const recorderRef = useRef(null);
+
+  const { trigger: uploadAudio, isMutating } = useSWRMutation(
     "user/general/speech-to-text",
     sendAudio,
     {
       onSuccess: (data) => {
-        handleVoiceSearch(data?.data);
+        handleVoiceSearch(data?.data?.text);
       },
     }
   );
@@ -129,29 +141,50 @@ const Header = ({
     if (isRecording) return;
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    setIsRecording(true);
-    setAudioChunks([]);
+    const audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+    const recorder = new Recorder(audioContext);
 
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) {
-        setAudioChunks((prev) => [...prev, e.data]);
-      }
-    };
-
-    recorder.onstop = () => {
-      const blob = new Blob(audioChunks, { type: "audio/wav" });
-      setRecordedBlob(blob);
-      setIsRecording(false);
-    };
-
+    await recorder.init(stream);
     recorder.start();
-    setMediaRecorder(recorder);
+
+    audioContextRef.current = audioContext;
+    streamRef.current = stream;
+    recorderRef.current = recorder;
+
+    setIsRecording(true);
   };
 
-  const handleStopRecording = () => {
-    if (mediaRecorder && isRecording) {
-      mediaRecorder.stop();
+  const handleStopRecording = async () => {
+    if (!recorderRef.current || !isRecording) return;
+
+    const { blob } = await recorderRef.current.stop();
+    setRecordedBlob(blob);
+
+    streamRef.current.getTracks().forEach((track) => track.stop());
+    setIsRecording(false);
+
+    try {
+      const response = await uploadAudio(blob); // this sends it
+      console.log("Upload response:", response); // use this data in UI
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
+
+    // Optionally clear the blob
+    setRecordedBlob(null);
+  };
+
+  const handleDownload = () => {
+    if (recordedBlob) {
+      const url = URL.createObjectURL(recordedBlob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "recording.wav";
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
     }
   };
 
@@ -285,16 +318,18 @@ const Header = ({
                       onClick={handleStopRecording}
                     />
                     <IoSendOutline
-                      style={{ transform: 'rotate(180deg)' }}
+                      style={{ transform: "rotate(180deg)" }}
                       onClick={async () => {
                         handleStopRecording();
-                        setTimeout(handleUpload, 500);
+                        // setTimeout(handleUpload, 500);
                       }}
-                      fontSize={'25px'}
+                      fontSize={"25px"}
                       color="white"
-                      cursor={'pointer'}
+                      cursor={"pointer"}
                     />
                   </HStack>
+                ) : isMutating ? (
+                  <Spinner color="white"/>
                 ) : (
                   <>
                     <IoSearch

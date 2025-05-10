@@ -188,7 +188,7 @@ export default function Home({ children }) {
     );
   };
   const handleVoiceSearch = (text) => {
-    router.push(`/result_search?search=${text}&search_type=search`);
+    router.push(`/result_search?search=${text}&search_type=semantic_search`);
   };
 
   return (
@@ -383,6 +383,7 @@ export default function Home({ children }) {
                 items={dataReferences?.data?.result?.map((val) => ({
                   title: val?.full_name,
                   image: val?.image_url,
+                  id: val?.id,
                   buttoh: "اطلاعات بیشتر",
                 }))}
                 height={"380px"}

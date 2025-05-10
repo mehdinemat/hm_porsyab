@@ -72,7 +72,15 @@ const items2 = [
 
 export default function Home({ children }) {
   const router = useRouter();
-  const {source} = router.query
+  const {
+    source,
+    tag,
+    tag_name,
+    public_fiqure_name,
+    public_fiqure,
+    category_id,
+    category_title,
+  } = router.query;
   const { locale } = useRouter();
   const slidesToShow = useBreakpointValue({ base: 1, md: 2, lg: 4 }); // responsive value
 
@@ -99,7 +107,9 @@ export default function Home({ children }) {
   } = useSWR(
     `user/question?lang=${locale}&page=${page}${
       categoryId && `&categories__id=${categoryId}`
-    }&source_id=${source}`
+    }&source_id=${source || 0}&tags__id=${tag || 0}&categories__id=${
+      category_id || 0
+    }`
   );
   // const {
   //   data: dataQuestionSearch,
@@ -195,7 +205,10 @@ export default function Home({ children }) {
   return (
     <MainLayout>
       <Head>
-        <title>{dataSource?.data?.find((it)=>(it?.id == source))?.fa_source_name || t("question")}</title>
+        <title>
+          {dataSource?.data?.find((it) => it?.id == source)?.fa_source_name ||
+            t("question")}
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <Header
@@ -215,7 +228,6 @@ export default function Home({ children }) {
         maxW="container.xl"
         mx="auto"
         marginTop={{ base: "60px", md: "100px" }}
-
         p={"20px"}
       >
         <Grid
@@ -308,9 +320,30 @@ export default function Home({ children }) {
               mb={{ base: "20px", md: "10px" }}
               alignItems={{ base: "center", md: "start" }}
             >
-              <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
-                منبع سوالات: {dataSource?.data?.find((it)=>(it?.id == source))?.fa_source_name}
-              </Text>
+              {source && (
+                <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
+                  منبع سوالات:{" "}
+                  {
+                    dataSource?.data?.find((it) => it?.id == source)
+                      ?.fa_source_name
+                  }
+                </Text>
+              )}
+              {tag && (
+                <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
+                  برچسب: {tag_name}
+                </Text>
+              )}
+              {public_fiqure && (
+                <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
+                  مرجع: {public_fiqure_name}
+                </Text>
+              )}
+              {category_id && (
+                <Text fontWeight={"700"} fontSize={"22px"} letterSpacing={0}>
+                  عنوان: {category_title}
+                </Text>
+              )}
 
               <Button
                 width={{ base: "152px", md: "189px" }}
