@@ -178,7 +178,7 @@ export default function Home({ children }) {
               : tag_name && "tag"
           )} : ${source_name || category_title || public_fiqure_name || tag_name}`}
         </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       {/* <Header
         data={dataGeneral?.data}

@@ -139,7 +139,7 @@ const Index = () => {
           {dataQuestion?.data?.result?.[0]?.title ||
             dataQuestion?.data?.result?.[0]?.content}
         </title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       <Box
         marginTop={{ base: "60px", md: "100px" }}
