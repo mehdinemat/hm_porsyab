@@ -176,7 +176,7 @@ export default function Home({ children }) {
     <MainLayout>
       <Head>
         <title>{t("parsa")} | {t("main_page")}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/porsyab_header.png" /> 
       </Head>
       <Header
         data={dataGeneral?.data}
