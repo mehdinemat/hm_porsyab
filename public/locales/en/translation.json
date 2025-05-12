@@ -108,8 +108,13 @@
     "create_account": "Create New Account",
     "have_account": "Already have an account?",
     "leave_comment": "Leave a Comment",
-  "main_page": "Main Page",
-  "topic": "Topic"
+    "main_page": "Main Page",
+    "topic": "Topic",
+    "semantic_search_results_for": "Semantic Search Results for",
+    "literal_search_results_for": "Literal Search Results for"
+
+
+  
 
 
 
