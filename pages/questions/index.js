@@ -43,6 +43,7 @@ export default function Home({ children }) {
   const router = useRouter();
   const {
     source,
+    source_name,
     tag,
     tag_name,
     public_fiqure_name,
@@ -167,8 +168,15 @@ export default function Home({ children }) {
     <MainLayout>
       <Head>
         <title>
-          {dataSource?.data?.find((it) => it?.id == source)?.fa_source_name ||
-            `${t("question")}_${source || category_title || public_fiqure_name || tag_name}`}
+          {`${t("parsa")} | ${t(
+            source
+              ? "source"
+              : category_title
+              ? "topic"
+              : public_fiqure_name
+              ? "resources"
+              : tag_name && "tag"
+          )} : ${source_name || category_title || public_fiqure_name || tag_name}`}
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -207,9 +215,7 @@ export default function Home({ children }) {
                 </BreadcrumbItem>
               ))}
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink fontWeight={"bold"}>
-                {category_title}
-              </BreadcrumbLink>
+              <BreadcrumbLink>{category_title}</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
         </Stack>
@@ -224,64 +230,53 @@ export default function Home({ children }) {
           {/* Right Sidebar */}
 
           <GridItem colSpan={1}>
-            <Box
-              w="100%"
-              maxW={{ base: "calc(100vw - 50px)", md: "100vw" }}
-              overflow="hidden"
-              wordBreak="break-word"
-              order={{ base: 2, md: 1 }}
-              zIndex={100}
-              border="1px"
-              borderColor="#EBEBEB"
-              borderRadius="15px"
-              p="10px"
-              height="min-content"
-              dir="rtl" // ✅ RTL direction
-            >
-              <Text fontWeight="bold" fontSize="16px" mb={4}>
-                {t("topics")}
-              </Text>
-              {dataCategory?.data?.length > 0 ? (
-              dataCategory?.data?.map((item, index) => (
-                <Accordion
-                  key={item.id}
-                  onClick={() => handleClickLink({ title: item?.name, id: item?.id })}
-                  allowToggle
-                >
-                  <AccordionItem
-                    borderTop={index === 0 ? "none" : "1px solid"}
-                    borderBottom={
-                      index === dataCategory.data.length - 1 ? "none" : "1px solid"
+            {dataCategory?.data?.length > 0 && (
+              <Box
+                w="100%"
+                maxW={{ base: "calc(100vw - 50px)", md: "100vw" }}
+                overflow="hidden"
+                wordBreak="break-word"
+                order={{ base: 2, md: 1 }}
+                zIndex={100}
+                border="1px"
+                borderColor="#EBEBEB"
+                borderRadius="15px"
+                p="10px"
+                height="min-content"
+                dir="rtl" // ✅ RTL direction
+              >
+                <Text fontWeight="bold" fontSize="16px" mb={4}>
+                  {t("topics")}
+                </Text>
+                {dataCategory?.data?.map((item, index) => (
+                  <Accordion
+                    key={item.id}
+                    onClick={() =>
+                      handleClickLink({ title: item?.name, id: item?.id })
                     }
-                    borderColor="gray.200"
+                    allowToggle
                   >
-                    <h2>
-                      <AccordionButton>
-                        <Box as="span" flex="1" textAlign="right">
-                          {item?.name}
-                        </Box>
-                      </AccordionButton>
-                    </h2>
-                  </AccordionItem>
-                </Accordion>
-              ))
-              ) : (
-                <VStack spacing={4} mt={4}>
-                  <Text fontSize="lg" color="gray.600">
-                    زیرشاخه‌ای برای این مورد وجود ندارد.
-                  </Text>
-                  <Text
-                    color="teal.500"
-                    cursor="pointer"
-                    fontWeight="medium"
-                    onClick={() => router.back()}
-                    _hover={{ textDecoration: "underline" }}
-                  >
-                    بازگشت
-                  </Text>
-                </VStack>
-              )}
-            </Box>
+                    <AccordionItem
+                      borderTop={index === 0 ? "none" : "1px solid"}
+                      borderBottom={
+                        index === dataCategory.data.length - 1
+                          ? "none"
+                          : "1px solid"
+                      }
+                      borderColor="gray.200"
+                    >
+                      <h2>
+                        <AccordionButton>
+                          <Box as="span" flex="1" textAlign="right">
+                            {item?.name}
+                          </Box>
+                        </AccordionButton>
+                      </h2>
+                    </AccordionItem>
+                  </Accordion>
+                ))}
+              </Box>
+            )}
 
             {/* <SidebarTree
               treeData={treeData}
