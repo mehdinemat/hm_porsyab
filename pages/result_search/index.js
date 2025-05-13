@@ -49,6 +49,7 @@ const Index = ({ children }) => {
   const { t } = useTranslation();
 
   const router = useRouter();
+  const { locale } = useRouter();
 
   const [page, setPage] = useState(1);
 
@@ -62,9 +63,8 @@ const Index = ({ children }) => {
     error: errorQuestionSearch,
     isLoading: isLoadingQuestionSearch,
   } = useSWR(
-    `user/question/search?page=${(page - 1) * 10 + 1}&search_type=${
-      filters?.search_type
-    }&content=${filters?.search}`
+    `user/question/search?page=${(page - 1) * 10 + 1}&search_type=${filters?.search_type
+    }&content=${filters?.search}&lang=${locale}`
   );
   const {
     data: dataCurrection,
