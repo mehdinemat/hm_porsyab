@@ -76,7 +76,18 @@ const Index = () => {
     postRequest,
     {
       onSuccess: (data) => {
-        router.push("/login");
+        console.log(data?.data?.status)
+        if (data?.data?.status) {
+          router.push("/login");
+        } else {
+          toast({
+            title: 'خطا',
+            description: data?.data?.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
       },
     }
   );
@@ -113,6 +124,7 @@ const Index = () => {
               src="/porsyab.png"
               width={{ base: "120px", md: "110px" }}
               height={{ base: "50px", md: "138px" }}
+              onClick={e => router.replace('/')}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
@@ -148,6 +160,16 @@ const Index = () => {
             >
               {errors.phone_number?.message}
             </p>
+            <Input
+              height={"46px"}
+              placeholder={t("first_name")}
+              {...register("first_name")}
+              sx={{
+                "::placeholder": {
+                  textAlign: "center", // this line is also needed to target the placeholder itself
+                },
+              }}
+            />
             <p
               style={{
                 fontSize: "10px",
@@ -201,6 +223,7 @@ const Index = () => {
             <Input
               height={"46px"}
               placeholder={t("password")}
+              type="password"
               {...register("password")}
               sx={{
                 "::placeholder": {
@@ -221,6 +244,7 @@ const Index = () => {
             <Input
               height={"46px"}
               placeholder={t("confirm_password")}
+              type="password"
               {...register("re_password")}
               sx={{
                 "::placeholder": {

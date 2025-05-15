@@ -2,17 +2,13 @@ import MultiSelectComboBox from "@/components/base/multiSelectComboBox";
 import { baseUrl } from "@/components/lib/api";
 import MainLayout from "@/components/mainLayout";
 import {
-  Badge,
   Box,
   Button,
-  Divider,
   HStack,
   Input,
-  ListItem,
   Text,
   Textarea,
-  UnorderedList,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import axios from "axios";
 import Head from "next/head";

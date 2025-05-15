@@ -3,13 +3,8 @@ import MainLayout from "@/components/mainLayout";
 import {
   Accordion,
   AccordionButton,
-  AccordionIcon,
   AccordionItem,
-  AccordionPanel,
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Grid,
   GridItem,
@@ -18,7 +13,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "slick-carousel/slick/slick-theme.css";
@@ -31,8 +26,6 @@ import QuestionCard from "@/components/questionCars";
 import SliderCom from "@/components/slider";
 import { useRouter } from "next/router";
 
-import SidebarTree from "@/components/base/sidebarTree";
-import { baseUrl } from "@/components/lib/api";
 import Head from "next/head";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -104,8 +97,7 @@ export default function Home({ children }) {
     error: errorQuestion,
     isLoading: isLoadingQuestion,
   } = useSWR(
-    `user/question?lang=${locale}&page=${page}${
-      categoryId && `&categories__id=${categoryId}`
+    `user/question?lang=${locale}&page=${page}${categoryId && `&categories__id=${categoryId}`
     }`
   );
   // const {
@@ -130,7 +122,7 @@ export default function Home({ children }) {
   const { data: dataCategory, isLoading: isLoadingCategory } = useSWR(
     `user/category?type=question`,
     {
-      onSuccess: (res) => {},
+      onSuccess: (res) => { },
     }
   );
 
@@ -176,7 +168,7 @@ export default function Home({ children }) {
     <MainLayout>
       <Head>
         <title>{t("parsa")} | {t("main_page")}</title>
-        <link rel="icon" href="/porsyab_header.png" /> 
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       <Header
         data={dataGeneral?.data}

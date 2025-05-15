@@ -2,10 +2,10 @@ import MainLayout from "@/components/mainLayout";
 import Pagination from "@/components/pagination";
 import UsersCard from "@/components/users/usersCard";
 import { Box, Button, Grid, HStack, Input, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import Head from "next/head";
+import { useTranslation } from "react-i18next";
 import { BiSortAlt2 } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
-import { useTranslation } from "react-i18next";
-import Head from "next/head";
 
 const Index = () => {
 
@@ -13,7 +13,7 @@ const Index = () => {
 
   return (
     <MainLayout>
-       <Head>
+      <Head>
         <title>لیست کاربران</title>
         <link rel="icon" href="/porsyab_header.png" />
       </Head>
@@ -56,19 +56,19 @@ const Index = () => {
           </HStack>
         </HStack>
         <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }} gap={"20px"} w={"100%"}>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
-          <UsersCard t={t}/>
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
+          <UsersCard t={t} />
         </Grid>
         <Stack w={'100%'} justifyContent={'center'} alignItems={'center'}>
-        <Pagination totalPages={20} currentPage={5} t={t}/>
-          </Stack>
+          <Pagination totalPages={20} currentPage={5} t={t} />
+        </Stack>
       </Box>
     </MainLayout>
   )

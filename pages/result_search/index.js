@@ -242,11 +242,12 @@ const Index = ({ children }) => {
                     color={"gray"}
                     letterSpacing={0}
                   >
-                    نتایج جستجو برای:
+                    نتایج جستجو {filters?.search_type == 'search' ? '' : 'معنایی '} برای:
                   </Text>
                   <Text fontWeight={"bold"} fontSize={"16px"}>
                     {filters?.search}
                   </Text>
+                  <Text color={'blue.400'} cursor={'pointer'} onClick={e => handleChangeModel()}>جستجو بر اساس مدل bge</Text>
                 </HStack>
                 {filters?.search !=
                   dataCurrection?.data?.data?.spell_correction_text &&
