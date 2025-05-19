@@ -127,9 +127,11 @@ const Index = () => {
     router.push(`question_answer?id=${id}`);
   };
 
-
   const handleClickSource = (source) => {
-    router.replace(`/questions?source=${dataSource?.data?.find((it) => it?.fa_source_name == source)?.id}`);
+    router.replace(
+      `/questions?source=${dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
+      }`
+    );
   };
 
   return (

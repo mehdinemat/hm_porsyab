@@ -12,12 +12,12 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import Head from "next/head";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BiSortAlt2 } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
 import useSWR from "swr";
-import { useTranslation } from "react-i18next";
-import Head from "next/head";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ const Index = () => {
 
   return (
     <MainLayout>
-         <Head>
+      <Head>
         <title>{t('sources')}</title>
         <link rel="icon" href="/porsyab_header.png" />
       </Head>
@@ -105,7 +105,7 @@ const Index = () => {
           w={"100%"}
         >
           {dataReferences?.data?.result?.map((item, index) => (
-            <ReferencesCard key={index} data={item} t={t}/>
+            <ReferencesCard key={index} data={item} t={t} />
           ))}
         </Grid>
         <Stack w={"100%"} justifyContent={"center"} alignItems={"center"}>

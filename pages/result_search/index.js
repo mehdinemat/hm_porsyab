@@ -57,8 +57,7 @@ const Index = ({ children }) => {
   const [filters, setFilters] = useQueryParams({
     search: withDefault(StringParam, ""),
     search_type: withDefault(StringParam, ""),
-    order_by: withDefault(StringParam, ''),
-    model: withDefault(StringParam, 'e5')
+    order_by: withDefault(StringParam, '')
   });
 
   const {
@@ -67,7 +66,7 @@ const Index = ({ children }) => {
     isLoading: isLoadingQuestionSearch,
   } = useSWR(
     `user/question/search?page=${(page - 1) * 10}&search_type=${filters?.search_type
-    }&content=${filters?.search}&lang=${locale}${filters?.order_by && `&order_by=${filters?.order_by}`}&model_name=${filters?.model}`
+    }&content=${filters?.search}&lang=${locale}${filters?.order_by && `&order_by=${filters?.order_by}`}`
   );
   const {
     data: dataCurrection,
@@ -87,10 +86,6 @@ const Index = ({ children }) => {
   useEffect(() => {
     setPage(1)
   }, [filters?.search])
-
-  const handleChangeModel = () => {
-    setFilters({ model: 'bge' })
-  }
 
   return (
     <MainLayout>
