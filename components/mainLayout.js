@@ -126,7 +126,7 @@ const MainLayout = ({ children }) => {
   };
 
   const handleClickMenuLink = (link) => {
-    router.push(link);
+    router.push(`/${link}`);
   };
 
   const handleClickHome = () => {

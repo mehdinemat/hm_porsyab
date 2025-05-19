@@ -28,7 +28,7 @@ import Pagination from "@/components/pagination";
 import QuestionCard from "@/components/questionCars";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoSearch } from "react-icons/io5";
 import { TbArrowsSort } from "react-icons/tb";
@@ -50,11 +50,15 @@ const Index = ({ children }) => {
 
   const router = useRouter();
 
+  const { locale } = useRouter();
+
   const [page, setPage] = useState(1);
 
   const [filters, setFilters] = useQueryParams({
     search: withDefault(StringParam, ""),
     search_type: withDefault(StringParam, ""),
+    order_by: withDefault(StringParam, ''),
+    model: withDefault(StringParam, 'e5')
   });
 
   const {
@@ -62,9 +66,8 @@ const Index = ({ children }) => {
     error: errorQuestionSearch,
     isLoading: isLoadingQuestionSearch,
   } = useSWR(
-    `user/question/search?page=${(page - 1) * 10 + 1}&search_type=${
-      filters?.search_type
-    }&content=${filters?.search}`
+    `user/question/search?page=${(page - 1) * 10}&search_type=${filters?.search_type
+    }&content=${filters?.search}&lang=${locale}${filters?.order_by && `&order_by=${filters?.order_by}`}&model_name=${filters?.model}`
   );
   const {
     data: dataCurrection,
@@ -77,9 +80,17 @@ const Index = ({ children }) => {
   };
   const handleCurrectClick = (currect) => {
     router.push(
-      `/result_search?search=${currect}&search_type=${filters?.search_type}`
+      `/ result_search?search=${currect}&search_type=${filters?.search_type}`
     );
   };
+
+  useEffect(() => {
+    setPage(1)
+  }, [filters?.search])
+
+  const handleChangeModel = () => {
+    setFilters({ model: 'bge' })
+  }
 
   return (
     <MainLayout>
@@ -236,11 +247,12 @@ const Index = ({ children }) => {
                     color={"gray"}
                     letterSpacing={0}
                   >
-                    نتایج جستجو برای:
+                    نتایج جستجو {filters?.search_type == 'search' ? 'لفظی' : 'معنایی '} برای:
                   </Text>
                   <Text fontWeight={"bold"} fontSize={"16px"}>
                     {filters?.search}
                   </Text>
+                  <Text color={'blue.400'} cursor={'pointer'} onClick={e => handleChangeModel()}>جستجو بر اساس مدل دوم</Text>
                 </HStack>
                 {filters?.search !=
                   dataCurrection?.data?.data?.spell_correction_text &&
@@ -286,24 +298,16 @@ const Index = ({ children }) => {
               </Text>
               <HStack>
                 <TbArrowsSort color="gray" fontSize={"16px"} />
-                <Text fontSize={"sm"} w={"max-content"}>
+                <Text fontSize={"sm"} w={"max-content"} >
                   مرتب سازی :
                 </Text>
                 <Button
                   colorScheme="gray"
                   variant={"ghost"}
                   _hover={{ bgColor: "none" }}
-                  fontWeight={"normal"}
                   fontSize={"sm"}
-                >
-                  جدیدترین‌ها
-                </Button>
-                <Button
-                  colorScheme="gray"
-                  variant={"ghost"}
-                  _hover={{ bgColor: "none" }}
-                  fontWeight={"normal"}
-                  fontSize={"sm"}
+                  fontWeight={filters?.order_by == 'view' ? 'bold' : 'normal'}
+                  onClick={e => setFilters({ order_by: 'view' })}
                 >
                   پربازدیدترین‌ها
                 </Button>
@@ -311,8 +315,9 @@ const Index = ({ children }) => {
                   colorScheme="gray"
                   variant={"ghost"}
                   _hover={{ bgColor: "none" }}
-                  fontWeight={"normal"}
+                  fontWeight={filters?.order_by == 'vote' ? 'bold' : 'normal'}
                   fontSize={"sm"}
+                  onClick={e => setFilters({ order_by: 'vote' })}
                 >
                   محبوبترین‌ها
                 </Button>

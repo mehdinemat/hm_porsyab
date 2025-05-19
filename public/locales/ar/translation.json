@@ -93,9 +93,9 @@
   "most_viewed": "الأكثر مشاهدة",
   "most_popular": "الأكثر شيوعًا",
   "information_portal": "مركز المعلومات",
-  "log_sub":"تسجيل الدخول / إنشاء حساب",
-  "show_all":"مشاهدة الكل",
-  "view_profile":"مشاهدة الملف الشخصي",
+  "log_sub": "تسجيل الدخول / إنشاء حساب",
+  "show_all": "مشاهدة الكل",
+  "view_profile": "مشاهدة الملف الشخصي",
   "search_user": "البحث عن مستخدم",
   "smart_question_search_engine": "محرك بحث ذكي للأسئلة",
   "learn_more": "مزيد من المعلومات",
@@ -111,12 +111,7 @@
   "topic": "الموضوع",
 "main_page": "الصفحة الرئيسية",
 "semantic_search_results_for": "نتائج البحث الدلالي لـ",
-"literal_search_results_for": "نتائج البحث النصي لـ"
-
-
-
-
-
-    
-  }
-  
+"literal_search_results_for": "نتائج البحث النصي لـ",
+  "ask_question": "لطرح سؤال، يجب أن تسجّل الدخول إلى حسابك.",
+  "your_question": "سؤالك"
+}

@@ -1,5 +1,5 @@
 {
-    "home_parsa_header_title": "پرسیاب; شبکه اجتماعی پرسش و پاسخ دینی",
+    "home_parsa_header_title": "پرسیاب؛ شبکه اجتماعی پرسش و پاسخ دینی",
     "about": "سلام",
     "header_products": "محصولات",
     "header_users": "کاربران",
@@ -95,9 +95,9 @@
 "most_viewed": "پربازدیدترین‌ها",
 "most_popular": "محبوب‌ترین‌ها",
   "information_portal": "پایگاه اطلاع‌رسانی",
-  "log_sub":"ورود/ثبت نام",
-  "show_all":"نمایش همه",
-  "view_profile":"مشاهده پروفایل",
+  "log_sub": "ورود/ثبت نام",
+  "show_all": "نمایش همه",
+  "view_profile": "مشاهده پروفایل",
   "search_user": "جستجو کاربران",
   "smart_question_search_engine": "موتور جستجو هوشمند سوالات",
   "learn_more": "اطلاعات بیشتر",
@@ -111,12 +111,7 @@
   "main_page": "صفحه اصلی",
   "topic": "موضوع",
   "semantic_search_results_for": "نتایج جستجو معنایی برای",
-  "literal_search_results_for": "نتایج جستجو لفظی برای"
-
-
-
-
-
-
-    
-  }
+  "literal_search_results_for": "نتایج جستجو لفظی برای",
+  "ask_question": "برای پرسیدن سوال، باید وارد حساب کاربری شوید.",
+  "your_question": "سوال شما"
+}

@@ -93,9 +93,9 @@
 "most_viewed": "Most Viewed",
 "most_popular": "Most Popular",
   "information_portal": "Information Portal",
-  "log_sub":"Log In / Sign Up",
-  "show_all":"Show All",
-  "view_profile":"View Profile",
+  "log_sub": "Log In / Sign Up",
+  "show_all": "Show All",
+  "view_profile": "View Profile",
   "search_user": "Search User",
   "smart_question_search_engine": "Smart Question Search Engine",
   "learn_more": "Learn More",
@@ -111,13 +111,7 @@
     "main_page": "Main Page",
     "topic": "Topic",
     "semantic_search_results_for": "Semantic Search Results for",
-    "literal_search_results_for": "Literal Search Results for"
-
-
-  
-
-
-
-    
-    
-  }
+    "literal_search_results_for": "Literal Search Results for",
+  "ask_question": "To ask a question, you need to log into your account.",
+  "your_question": "Your question"
+}
