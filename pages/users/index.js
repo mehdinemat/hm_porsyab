@@ -9,7 +9,6 @@ import useSWR from "swr";
 import { NumberParam, useQueryParams, withDefault } from "use-query-params";
 import { useRouter } from "next/router";
 import { Box, Button, Grid, HStack, Input, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
-import Head from "next/head";
 import { useTranslation } from "react-i18next";
 import { BiSortAlt2 } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
