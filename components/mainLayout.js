@@ -225,7 +225,7 @@ const MainLayout = ({ children }) => {
                 cursor={"pointer"}
               />
               <Image
-                src="../../porsyab_footer.png"
+                src="/porsyab_footer.png"
                 width={{ base: "50px", md: "40px" }}
                 height={{ base: "35px", md: "36px" }}
                 onClick={handleClickHome}
