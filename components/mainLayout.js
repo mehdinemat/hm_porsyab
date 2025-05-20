@@ -320,6 +320,9 @@ const MainLayout = ({ children }) => {
           <HStack spacing={4} display={{ base: "none", md: "flex" }}>
             {menuList?.map((item) => (
               <Text
+              padding={'5px'}
+              _hover={{bgColor:'gray.100'}}
+              borderRadius={'5px'}
                 textAlign={"center"}
                 fontSize={"sm"}
                 w={"70px"}
