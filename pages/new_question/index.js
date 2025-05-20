@@ -16,7 +16,7 @@ import {
   Input,
   Text,
   Textarea,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
@@ -168,7 +168,6 @@ const Index = () => {
           maxW="container.xl"
           mx="auto"
           mt={{ base: "80px", md: "120px" }}
-          mb={"10px"}
           onSubmit={handleSubmitQuestion(handleAddNewQuestion)}
         >
           <Text fontWeight={"bold"} fontSize={"20px"} mb={"30px"}>
