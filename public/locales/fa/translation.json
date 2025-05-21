@@ -114,7 +114,8 @@
   "literal_search_results_for": "نتایج جستجو لفظی برای",
   "ask_question": "برای پرسیدن سوال، باید وارد حساب کاربری شوید.",
   "your_question": "سوال شما",
-  "login":"ورود",
-    "no_account": "حساب کاربری ندارید؟"
+    "no_account": "حساب کاربری ندارید؟",
+      "continue": "ادامه"
+
 
 }

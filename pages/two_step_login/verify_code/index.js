@@ -84,7 +84,11 @@ const Index = () => {
 
   const handleAddVerifyCode = (e) => {
     e.preventDefault();
-    trigger({ code: otp?.join(""), username });
+    trigger({ code: otp?.join(""), username: username?.replace(/ /g, "+") });
+  };
+
+  const handleLoginClick = () => {
+    router.push("/");
   };
 
   return (

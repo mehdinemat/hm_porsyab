@@ -2,7 +2,6 @@ import { baseUrl } from "@/components/lib/api";
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   HStack,
   Image,
@@ -11,44 +10,73 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useSWRMutation from "swr/mutation";
+import * as Yup from "yup";
+import { useEffect, useState } from "react";
+import PhoneInput from "@/components/base/PhoneInput";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
 });
 
-const postRequest = (url, { arg }) => {
-  return axios.post(baseUrl + url, arg);
+const postRequest = (url, { arg: { number, ...data } }) => {
+  return axios.post(baseUrl + url + `?phone_number=${number}`);
 };
 
 const Index = () => {
+  const [phone, setPhone] = useState("");
+  const [fullNumber, setFullNumber] = useState("");
+
   const { t } = useTranslation();
 
+  const router = useRouter();
   const toast = useToast();
 
-  const router = useRouter();
+  const validationSchema = Yup.object({
+    username: Yup.string()
+      .required("نام کاربری را وارد کنید")
+      .min(3, "نام کاربری باید حداقل 3 کاراکتر باشد"),
+    email: Yup.string().email("ایمیل اشتباست"),
+    password: Yup.string()
+      .required("رمز عبور را وارد کنید")
+      .min(6, "رمز عبور حداقل باید 6 کاراکتر باشد"),
 
-  const { register, setValue, getValues, handleSubmit } = useForm();
+    re_password: Yup.string()
+      .oneOf([Yup.ref("password"), null], "تکرار رمز عبور اشتباست")
+      .required("لطفا تکرار رمز عبور را وارد کنید"),
+  });
+
+  const {
+    register,
+    setValue,
+    getValues,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const { trigger, isLoading, isMutating } = useSWRMutation(
-    "user/auth",
+    "user/auth/send-verify-code",
     postRequest,
     {
       onSuccess: (data) => {
+        toast({
+          title: "موفق",
+          description: "کد تایید ارسال شد",
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+        });
         if (data?.data?.status) {
-          if (data?.data?.data?.otp_sended) {
-            router.push(
-              `/two_step_login/verify_code?username=${getValues("username")}`
-            );
-          } else {
-            localStorage.setItem("token", data?.data?.data?.access_token);
-            router.push('/')
-          }
+          router.push(`/two_step_login/verify_code?username=${fullNumber}`);
         } else {
           toast({
             title: "خطا",
@@ -61,17 +89,9 @@ const Index = () => {
       },
     }
   );
-  const handleLogin = (e) => {
-    trigger(e);
+  const handleRegisterUser = (e) => {
+    trigger({ number: fullNumber });
   };
-
-  const handleClickRegister = () => {
-    router.replace("/register");
-  };
-
-  const handleForgetPasswordClick = ()=>{
-    router.push('forget_password')
-  }
 
   return (
     <Box
@@ -93,17 +113,15 @@ const Index = () => {
           <VStack
             w={"350px"}
             mt={"20px"}
-            as={"form"}
-            onSubmit={handleSubmit(handleLogin)}
             justifyContent={"center"}
             height={"100%"}
           >
             <Image
-              src="/porsyab.png"
-              width={{ base: "120px", md: "110px" }}
-              height={{ base: "50px", md: "138px" }}
+              src="/loginlogo.png"
+              width={{ base: "120px", md: "165px" }}
+              height={{ base: "50px", md: "68px" }}
+              onClick={(e) => router.replace("/")}
               cursor={"pointer"}
-              onClick={(e) => router.push("/")}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
@@ -116,70 +134,20 @@ const Index = () => {
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />
             <Text fontSize={{ base: "20px", md: "25px" }} mt={"20px"}>
-              {t("log_in_to_your_account")}
+              {t("  ")}
             </Text>
-            <Input
-              height={"46px"}
-              placeholder={t("username_or_mobile_number")}
-              my={"10px"}
-              {...register("username")}
-              sx={{
-                "::placeholder": {
-                  textAlign: "center", // this line is also needed to target the placeholder itself
-                },
-              }}
-            />
-            <Input
-              height={"46px"}
-              type="password"
-              placeholder={t("password")}
-              mb={"10px"}
-              {...register("password")}
-              sx={{
-                "::placeholder": {
-                  textAlign: "center", // this line is also needed to target the placeholder itself
-                },
-              }}
-            />
-            <HStack w={"100%"} justifyContent={"space-between"}>
-              <HStack>
-                <Checkbox></Checkbox>
-                <Text fontSize={{ base: "15px", md: "18px" }}>
-                  {t("remember_me")}
-                </Text>
-              </HStack>
-              <Text color={"#29CCCC"} fontSize={{ base: "15px", md: "18px" }} cursor={'pointer'} onClick={handleForgetPasswordClick}>
-                {t("forgot_password")}
-              </Text>
-            </HStack>
+            <PhoneInput setFullNumber={setFullNumber} fullNumber={fullNumber} />
             <Button
               w={"100%"}
               bgColor={"#29CCCC"}
               height={"46px"}
               mt={"20px"}
               type="submit"
+              onClick={handleRegisterUser}
               isLoading={isMutating}
             >
-              {t("log_in")}
+              {t("continue")}
             </Button>
-            <HStack
-              w={"100%"}
-              alignItems={"start"}
-              onClick={(e) => router.push("/register")}
-            >
-              <Text>{t("no_account")}</Text>
-              <Text color={"blue.500"} cursor={"pointer"}>
-                {t("create_account")}
-              </Text>
-            </HStack>
-            {/* <Button
-              variant={"outline"}
-              w={"100%"}
-              rightIcon={<IoLogoGoogle />}
-              height={"46px"}
-            >
-              ورود با حساب گوگل
-            </Button> */}
           </VStack>
         </Box>
         <Box
