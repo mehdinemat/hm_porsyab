@@ -122,12 +122,12 @@ const Index = () => {
             justifyContent={"center"}
             height={"100%"}
           >
-            <Image
-              src="/loginlogo.png"
-              width={{ base: "120px", md: "165px" }}
-              height={{ base: "50px", md: "68px" }}
-              onClick={(e) => router.replace("/")}
+               <Image
+              src="/porsyab.png"
+              width={{ base: "120px", md: "110px" }}
+              height={{ base: "50px", md: "138px" }}
               cursor={"pointer"}
+              onClick={(e) => router.push("/")}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
