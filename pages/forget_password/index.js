@@ -26,7 +26,9 @@ const Lottie = dynamic(() => import("lottie-react"), {
 });
 
 const postRequest = (url, { arg: { number, ...data } }) => {
-  return axios.post(baseUrl + url + `?phone_number=${number}`);
+  return axios.post(
+    baseUrl + url + `?phone_number=${encodeURIComponent(number)}`
+  );
 };
 
 const Index = () => {
@@ -76,7 +78,11 @@ const Index = () => {
           isClosable: true,
         });
         if (data?.data?.status) {
-          router.push(`/two_step_login/verify_code?username=${fullNumber}`);
+          router.push(
+            `/two_step_login/verify_code?phone=${encodeURIComponent(
+              fullNumber
+            )}`
+          );
         } else {
           toast({
             title: "خطا",
@@ -133,8 +139,12 @@ const Index = () => {
               {t("religious")}
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />
-            <Text fontSize={{ base: "20px", md: "25px" }} mt={"20px"}>
-              {t("  ")}
+            <Text
+              fontSize={{ base: "20px", md: "25px" }}
+              mt={"20px"}
+              mb={"10px"}
+            >
+              {t("forgot_password")}
             </Text>
             <PhoneInput setFullNumber={setFullNumber} fullNumber={fullNumber} />
             <Button

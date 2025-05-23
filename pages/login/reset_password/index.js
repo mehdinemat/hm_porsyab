@@ -2,6 +2,7 @@ import { baseUrl } from "@/components/lib/api";
 import {
   Box,
   Button,
+  Checkbox,
   Divider,
   HStack,
   Image,
@@ -12,9 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useSWRMutation from "swr/mutation";
@@ -23,36 +22,25 @@ const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
 });
 
-const postRequest = (url, { arg }) => {
-  return axios.post(baseUrl + url, arg);
+const patchRequest = (url, { arg }) => {
+  return axios.patch(baseUrl + url, arg);
 };
 
 const Index = () => {
-  const toast = useToast();
-
   const { t } = useTranslation();
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const phone = searchParams.get("phone");
-  const username = searchParams.get("username");
-  const [otp, setOtp] = useState(["", "", "", "", ""]);
-  const inputsRef = useRef([]);
+  const toast = useToast();
 
+  const router = useRouter();
   const { register, setValue, getValues, handleSubmit } = useForm();
 
   const { trigger, isLoading, isMutating } = useSWRMutation(
-    "user/auth/verify-code",
-    postRequest,
+    "user/client/reset-password",
+    patchRequest,
     {
       onSuccess: (data) => {
         if (data?.data?.status) {
-          localStorage.setItem("token", data?.data?.data?.access_token);
-          if (username) {
-            router.replace("/");
-          } else {
-            router.replace("/login/reset_password");
-          }
+          router.push(`/`);
         } else {
           toast({
             title: "خطا",
@@ -65,37 +53,16 @@ const Index = () => {
       },
     }
   );
-
-  const handleChange = (element, index) => {
-    const value = element.value.replace(/\D/, ""); // Only digits
-    if (value.length > 1) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Move to next input if filled
-    if (value && index < 4) {
-      inputsRef.current[index + 1].focus();
-    }
+  const handleResetPassword = (e) => {
+    trigger(e);
   };
 
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputsRef.current[index - 1].focus();
-    }
+  const handleClickRegister = () => {
+    router.replace("/register");
   };
 
-  const handleAddVerifyCode = (e) => {
-    e.preventDefault();
-    trigger({
-      code: otp?.join(""),
-      username: username || phone,
-    });
-  };
-
-  const handleLoginClick = () => {
-    router.push("/");
+  const handleForgetPasswordClick = () => {
+    router.push("forget_password");
   };
 
   return (
@@ -119,14 +86,16 @@ const Index = () => {
             w={"350px"}
             mt={"20px"}
             as={"form"}
-            onSubmit={handleAddVerifyCode}
+            onSubmit={handleSubmit(handleResetPassword)}
             justifyContent={"center"}
             height={"100%"}
           >
             <Image
-              src="/porsyab.png"
-              width={{ base: "120px", md: "110px" }}
-              height={{ base: "50px", md: "138px" }}
+              cursor={"pointer"}
+              onClick={(e) => router.push("/")}
+              src="/loginlogo.png"
+              width={{ base: "120px", md: "165px" }}
+              height={{ base: "50px", md: "68px" }}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
@@ -138,41 +107,51 @@ const Index = () => {
               {t("religious")}
             </Text>
             <Divider w={"350px"} h={"2px"} bgColor={"#29CCCC"} />
-            <Text
-              fontSize={{ base: "20px", md: "22px" }}
-              mt={"20px"}
-              mb={"10px"}
-            >
-              {t("login_code")}
+            <Text fontSize={{ base: "20px", md: "25px" }} mt={"20px"}>
+              {t("new_password")}
             </Text>
-            <HStack spacing={3} dir="ltr">
-              {otp.map((digit, index) => (
-                <Input
-                  key={index}
-                  type="text"
-                  maxLength={1}
-                  textAlign="center"
-                  height="46px"
-                  width="46px"
-                  fontSize="2xl"
-                  value={digit}
-                  onChange={(e) => handleChange(e.target, index)}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
-                  ref={(el) => (inputsRef.current[index] = el)}
-                  placeholder="-"
-                />
-              ))}
-            </HStack>
+            <Input
+              height={"46px"}
+              type="password"
+              placeholder={t("password")}
+              my={"10px"}
+              {...register("password")}
+              sx={{
+                "::placeholder": {
+                  textAlign: "center", // this line is also needed to target the placeholder itself
+                },
+              }}
+            />
+            <Input
+              height={"46px"}
+              type="password"
+              placeholder={t("repeat_password")}
+              mb={"10px"}
+              {...register("re_password")}
+              sx={{
+                "::placeholder": {
+                  textAlign: "center", // this line is also needed to target the placeholder itself
+                },
+              }}
+            />
             <Button
               w={"100%"}
               bgColor={"#29CCCC"}
               height={"46px"}
-              my={"20px"}
+              mt={"20px"}
               type="submit"
               isLoading={isMutating}
             >
-              {t("login")}
+              {t("reset_password")}
             </Button>
+            {/* <Button
+              variant={"outline"}
+              w={"100%"}
+              rightIcon={<IoLogoGoogle />}
+              height={"46px"}
+            >
+              ورود با حساب گوگل
+            </Button> */}
           </VStack>
         </Box>
         <Box
@@ -182,11 +161,11 @@ const Index = () => {
           display={{ base: "none", md: "flex" }}
         >
           {/* Base / background image */}
-          <Image src="../../loginbg.png" objectFit="cover" w="100%" h="100%" />
+          <Image src="/loginbg.png" objectFit="cover" w="100%" h="100%" />
 
           {/* Overlay / centered image */}
           <Image
-            src="../../loginlogoqu.png"
+            src="/loginlogoqu.png"
             alt="Centered Image"
             position="absolute"
             top="50%"
