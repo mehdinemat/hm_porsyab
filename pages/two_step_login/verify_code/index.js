@@ -48,7 +48,11 @@ const Index = () => {
       onSuccess: (data) => {
         if (data?.data?.status) {
           localStorage.setItem("token", data?.data?.data?.access_token);
-          router.replace("/");
+          if (username) {
+            router.replace("/");
+          } else {
+            router.replace("/login/reset_password");
+          }
         } else {
           toast({
             title: "خطا",
@@ -84,7 +88,10 @@ const Index = () => {
 
   const handleAddVerifyCode = (e) => {
     e.preventDefault();
-    trigger({ code: otp?.join(""), username: username?.replace(/ /g, "+") });
+    trigger({
+      code: otp?.join(""),
+      username: username || phone,
+    });
   };
 
   const handleLoginClick = () => {
@@ -120,6 +127,8 @@ const Index = () => {
               src="/porsyab.png"
               width={{ base: "120px", md: "110px" }}
               height={{ base: "50px", md: "138px" }}
+              onClick={handleLoginClick}
+              cursor={'pointer'}
             />
             <Text
               fontSize={{ base: "20px", md: "23px" }}
