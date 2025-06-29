@@ -45,9 +45,9 @@ steps:
     commands:
       - cd ${DRONE_REPO_NAME}/
       - echo "$ENV_FILE" > .env
-      - docker stop ${DRONE_REPO_NAME} || true
-      - docker rm ${DRONE_REPO_NAME} || true
-      - docker run -d --name ${DRONE_REPO_NAME} --env-file .env --restart unless-stopped -p 3000:3000 ${DRONE_REPO_NAME}:latest
+      - docker stop porsyab_front || true
+      - docker rm porsyab_front || true
+      - docker run -d --name porsyab_front --env-file .env --restart unless-stopped -p 3005:3000 porsyab_front:latest
       - docker image prune -f
       - rm .env
 
