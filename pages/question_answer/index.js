@@ -63,6 +63,7 @@ const Index = () => {
   const { t } = useTranslation();
 
   const slidesToShow = useBreakpointValue({ base: 1, md: 2, lg: 4 }); // responsive value
+  
 
   const router = useRouter();
   const { query } = router;

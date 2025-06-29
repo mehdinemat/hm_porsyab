@@ -103,7 +103,6 @@ const Index = () => {
     title: Yup.string()
       .required("عنوان الزامی است") // Persian: "Title is required"
       .min(3, "عنوان باید حداقل ۳ کاراکتر باشد"), // "Title must be at least 3 characters"
-
     content: Yup.string()
       .required("محتوا الزامی است") // "Content is required"
       .min(10, "محتوا باید حداقل ۱۰ کاراکتر باشد"), // "Content must be at least 10 characters"
@@ -135,7 +134,7 @@ const Index = () => {
       categories: [],
     });
     resetQuestion();
-    selectedOptions([]);
+    setSelectedOptions([]);
   };
 
   useEffect(() => {
@@ -153,7 +152,7 @@ const Index = () => {
         <link rel="icon" href="/porsyab_header.png" />
       </Head>
 
-      {false ? (
+      {!isUserLogin ? (
         <IsLogin type="question" />
       ) : (
         <Box
@@ -202,10 +201,6 @@ const Index = () => {
                       setShowSuggestions(false);
                     }
                   }}
-                  onChange={(e) => {
-                    // setShowSuggestions(true);
-                  }}
-                  ref={inputRef}
                 />
                 {showSuggestions &&
                   dataSearchQuestion?.data?.result?.length > 0 && (

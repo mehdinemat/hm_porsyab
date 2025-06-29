@@ -43,6 +43,7 @@ export default function PhoneInput({ fullNumber, setFullNumber }) {
           dir="ltr"
           height={"46px"}
           value={number}
+          type="number"
           onChange={handleNumberChange}
           placeholder={t("phone_number")}
             _placeholder={{ textAlign: 'right' }}
