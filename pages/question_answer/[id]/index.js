@@ -124,6 +124,7 @@ const Index = () => {
     query?.id &&
     `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
+
   // const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
   //   query?.id &&
   //   `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
@@ -881,7 +882,7 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(similar?.id)}
                       >
-                        <Text fontSize={"14px"}>{similar?.content?.substring(0, 100)}</Text>
+                        <Text fontSize={"14px"}>{similar?.content?.substring(0, 100)}...</Text>
                       </HStack>
                     ))}
                 </Box>
@@ -910,7 +911,7 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(related?.id)}
                       >
-                        <Text fontSize={"14px"}>{related?.content?.substring(0, 100)}</Text>
+                        <Text fontSize={"14px"}>{related?.content?.substring(0, 100)}...</Text>
                       </VStack>
                     ))}
                 </Box>
