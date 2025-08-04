@@ -30,8 +30,8 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - cd ${DRONE_REPO_NAME}/
-      - docker build -t ${DRONE_REPO_NAME}:latest --no-cache .
+      - cd porsyab_front/
+      - docker build -t porsyab_front:latest .
       - docker builder prune -f
 
   - name: deploy
@@ -43,7 +43,7 @@ steps:
       ENV_FILE:
         from_secret: deploy-env
     commands:
-      - cd ${DRONE_REPO_NAME}/
+      - cd porsyab_front/
       - echo "$ENV_FILE" > .env
       - docker stop porsyab_front || true
       - docker rm porsyab_front || true
