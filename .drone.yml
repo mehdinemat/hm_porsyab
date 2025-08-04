@@ -31,7 +31,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - cd ${DRONE_REPO_NAME}/
-      - docker build -t ${DRONE_REPO_NAME}:latest .
+      - docker build -t ${DRONE_REPO_NAME}:latest --no-cache .
       - docker builder prune -f
 
   - name: deploy
