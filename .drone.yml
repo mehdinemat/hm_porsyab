@@ -14,7 +14,7 @@ clone:
 
 steps:
   - name: clone
-    image: alpine/git
+    image: focker.ir/alpine/git
     environment:
       GITEA_DEPLOY_TOKEN:
         from_secret: deploy-token
@@ -25,17 +25,17 @@ steps:
       - GIT_SSL_NO_VERIFY=true git clone --branch porsyab --single-branch https://drone-deploy:$GITEA_DEPLOY_TOKEN@git.t.etratnet.ir/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}.git
   
   - name: build-image
-    image: docker.arvancloud.ir/docker
+    image: focker.ir/docker
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - cd ${DRONE_REPO_NAME}/
-      - docker build -t ${DRONE_REPO_NAME}:latest .
+      - cd porsyab_front/
+      - docker build -t porsyab_front:latest .
       - docker builder prune -f
 
   - name: deploy
-    image: docker.arvancloud.ir/docker
+    image: focker.ir/docker
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
