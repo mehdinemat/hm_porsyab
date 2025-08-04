@@ -50,8 +50,8 @@ const postActionRequest = (
 ) => {
   return axios.post(
     baseUrl +
-      url +
-      `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
+    url +
+    `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
     data,
     {
       headers: {
@@ -67,8 +67,8 @@ const patchRequest = (
 ) => {
   return axios.post(
     baseUrl +
-      url +
-      `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
+    url +
+    `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
     data,
     {
       headers: {
@@ -117,20 +117,20 @@ const Index = () => {
 
   const { data: dataQuestionComment, isLoading: isLoadingComment } = useSWR(
     query?.id &&
-      `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
+    `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
   );
   const { data: dataQuestionLike, isLoading: isLoadingLike } = useSWR(
     query?.id &&
-      `user/action?table_id=${query?.id}&table_type=question&type_param=like`
+    `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
   const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
     query?.id &&
-      `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
+    `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
   );
 
   const { data: dataQuestionSimilar, isLoading: isLoadingSimilar } = useSWR(
     dataQuestion?.data &&
-      `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
+    `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
   );
 
   const {
@@ -192,8 +192,7 @@ const Index = () => {
 
   const handleClickSource = (source) => {
     router.replace(
-      `/questions?source=${
-        dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
+      `/questions?source=${dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
       }`
     );
   };
@@ -231,7 +230,7 @@ const Index = () => {
           {dataQuestion?.data?.result?.[0]?.title ||
             dataQuestion?.data?.result?.[0]?.content}
         </title>
-        <link rel="icon" href="/question.png" />
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       <Box
         marginTop={{ base: "60px", md: "100px" }}
@@ -597,7 +596,7 @@ const Index = () => {
                         my={"10px"}
                       >
                         <Text fontWeight={"bold"} fontSize={"18px"}>
-                          {t("answers")}
+                          {t(dataQuestionAnswer?.data?.length == 1 ? "answer_one" : "answers")}
                         </Text>
                       </HStack>
                       <HStack alignItems={"start"} gap={"10px"}>
@@ -821,7 +820,7 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(similar?.id)}
                       >
-                        <Text fontSize={"14px"}>{similar?.content?.substring(0,100)}</Text>
+                        <Text fontSize={"14px"}>{similar?.content?.substring(0, 100)}</Text>
                       </HStack>
                     ))}
                 </Box>
@@ -850,7 +849,7 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(related?.id)}
                       >
-                        <Text fontSize={"14px"}>{related?.content?.substring(0,100)}</Text>
+                        <Text fontSize={"14px"}>{related?.content?.substring(0, 100)}</Text>
                       </VStack>
                     ))}
                 </Box>

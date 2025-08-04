@@ -48,17 +48,17 @@ import {
 } from "react-icons/io";
 import { IoCall, IoExitOutline, IoLocation, IoSearch } from "react-icons/io5";
 import { PiDiamondThin } from "react-icons/pi";
+import useSWR from "swr";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import AdminMenuBar from "./admin_dashboard/adminMenuBar";
 import UserMenuBar from "./mobile/dashboard/userMenuBar";
 import MenuBar from "./mobile/menuBar";
-import useSWR from "swr";
 
 const menuList = [
-  {
-    title: "برچسب ها",
-    t_title: "header_tags",
-  },
+  // {
+  //   title: "برچسب ها",
+  //   t_title: "header_tags",
+  // },
   {
     title: "کاربران",
     link: "users",

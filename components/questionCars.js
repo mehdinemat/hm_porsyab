@@ -1,14 +1,32 @@
-import { Avatar, Badge, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Avatar,
+  Badge,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
+import { FiMoreVertical } from "react-icons/fi";
 import { GiBigDiamondRing } from "react-icons/gi";
 import { IoCheckmark, IoEyeOutline } from "react-icons/io5";
 
 const QuestionCard = ({ data, t, type = "question" }) => {
+
   const router = useRouter();
 
-  const handleQuestionRouter = (id) => {
-    router.push(`/question_answer/${id}`);
+  const handleQuestionRouter = (id, openInNewTab = false) => {
+    const url = `/question_answer/${id}`;
+    if (openInNewTab) {
+      window.open(url, "_blank");
+    } else {
+      router.push(url);
+    }
   };
 
   const handleClickTags = (item) => {
@@ -23,90 +41,104 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       mb={"10px"}
       pb={"20px"}
       gap={"20px"}
-      cursor={"pointer"}
+      position="relative"
+
     >
+      {/* Left stats */}
       <VStack w={"150px"} alignItems={"start"}>
         <HStack color={"gray.600"}>
           <GiBigDiamondRing fontSize={"20px"} />
-          <Text fontSize={"16px"} w={"max-content"}>
-            {data?.like_count}
-            {t("like")}
-          </Text>
+          <Text fontSize={"16px"}>{data?.like_count} {t("like")}</Text>
         </HStack>
         <HStack color={"gray.600"}>
           <IoCheckmark fontSize={"20px"} />
-          <Text fontSize={"16px"} w={"max-content"}>
-            {data?.answer_count} {t("answer")}
-          </Text>
+          <Text fontSize={"16px"}>{data?.answer_count} {t("answer")}</Text>
         </HStack>
         <HStack color={"gray.600"}>
           <IoEyeOutline fontSize={"20px"} />
-          <Text fontSize={"16px"} w={"max-content"}>
-            {data?.view_count} {t("view")}
-          </Text>
+          <Text fontSize={"16px"}>{data?.view_count} {t("view")}</Text>
         </HStack>
-        <HStack></HStack>
       </VStack>
-      <VStack w={"100%"} alignItems={"start"} gap={"20px"}>
-        <Text
-          onClick={(e) =>
-            handleQuestionRouter(
-              type == "question" ? data?.id : data?.question_id
-            )
-          }
-          fontSize={"18px"}
-          w="full"
-          whiteSpace="normal"
-          lineHeight={"taller"}
-          textAlign={"justify"}
-        >
-          {data?.content}
-        </Text>
+
+      {/* Content section */}
+      <VStack w={"100%"} alignItems={"start"} gap={"20px"} position="relative">
+        <HStack w="full" justifyContent="space-between" alignItems={'start'}>
+          <Text
+            fontSize={"18px"}
+            w="full"
+            whiteSpace="normal"
+            lineHeight={"taller"}
+            textAlign={"justify"}
+          >
+            {data?.content}
+          </Text>
+
+          {/* More menu button */}
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              icon={<FiMoreVertical />}
+              size="sm"
+              variant="ghost"
+              aria-label="More options"
+            />
+            <MenuList>
+              <MenuItem
+                onClick={() =>
+                  handleQuestionRouter(
+                    type === "question" ? data?.id : data?.question_id,
+                    false
+                  )
+                }
+              >
+                {t("open_in_same_page")}
+              </MenuItem>
+              <MenuItem
+                onClick={() =>
+                  handleQuestionRouter(
+                    type === "question" ? data?.id : data?.question_id,
+                    true
+                  )
+                }
+              >
+                {t("open_in_new_tab")}
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
+
+        {/* Tags */}
         <HStack>
           {data?.tags?.map((item, index) => (
             <Badge
-              onClick={(e) => handleClickTags(item)}
+              key={index}
+              onClick={() => handleClickTags(item)}
               _hover={{ bgColor: "#29cccc38", color: "#1a7c7c" }}
               transition={".3s"}
-              key={index}
               color="#16A6A6"
               bgColor="#29CCCC1A"
               height="26px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
               fontSize={"14px"}
               fontWeight={"100"}
-              px="8px" // optional: add some horizontal padding
+              px="8px"
+              cursor="pointer"
             >
               {item?.name}
             </Badge>
           ))}
         </HStack>
-        <HStack w={"100%"}>
+
+        {/* Author + time */}
+        <HStack w={"100%"} justifyContent={"space-between"}>
           {data?.source && (
             <HStack>
               <Avatar size={"sm"} />
-              <Text color={"gray.700"} w={"140px"}>
-                {data?.source}
-              </Text>
+              <Text color={"gray.700"}>{data?.source}</Text>
             </HStack>
           )}
-          <HStack w={"100%"} justifyContent={"end"}>
-            <Text w={"150px"} color={"gray.400"}>
-              {moment(data?.created_at).format("hh:mm:ss jYYYY/jMM/jDD")}
-            </Text>
-            {/* <AvatarGroup size="sm" max={2}>
-              <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-              <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
-              <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
-              <Avatar
-                name="Prosper Otemuyiwa"
-                src="https://bit.ly/prosper-baba"
-              />
-              <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-            </AvatarGroup> */}
-          </HStack>
+          <Text color={"gray.400"}>
+            {moment(data?.created_at).format("hh:mm:ss jYYYY/jMM/jDD")}
+          </Text>
         </HStack>
       </VStack>
     </HStack>

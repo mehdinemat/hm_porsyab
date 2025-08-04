@@ -28,9 +28,9 @@ import {
   IoSendOutline,
 } from "react-icons/io5";
 import { PiDiamondThin } from "react-icons/pi";
+import Recorder from "recorder-js";
 import useSWRMutation from "swr/mutation";
 import { baseUrl } from "../lib/api";
-import Recorder from "recorder-js";
 
 const siteData = [
   {
@@ -329,7 +329,7 @@ const Header = ({
                     />
                   </HStack>
                 ) : isMutating ? (
-                  <Spinner color="white"/>
+                  <Spinner color="white" />
                 ) : (
                   <>
                     <IoSearch

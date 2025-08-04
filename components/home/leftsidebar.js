@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 const LeftSidebar = ({ data, t, last }) => {
   const router = useRouter();
   const handleClickSource = () => {
-    router.replace(`/questions/source/${data?.id}/${data?.fa_source_name}`);
+    window.open(data?.source_link, '_blank');
   };
 
   return (

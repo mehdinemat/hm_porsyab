@@ -168,7 +168,7 @@ export default function Home({ children }) {
     <MainLayout>
       <Head>
         <title>{t("parsa")} | {t("main_page")}</title>
-        <link rel="icon" href="/porsyab_header.png" /> 
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       <Header
         data={dataGeneral?.data}
@@ -406,13 +406,13 @@ export default function Home({ children }) {
                 title={t("sources")}
               />
             )}
-            <SliderCom
+            {/* <SliderCom
               items={items2}
               height={"270px"}
               width="350px"
               borderRadius={"0px"}
               title={t("parsa_supporters")}
-            />
+            /> */}
           </GridItem>
         </Grid>
       </Box>
