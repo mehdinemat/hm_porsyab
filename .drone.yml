@@ -30,7 +30,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - cd porsyab_front/
+      - cd ${DRONE_REPO_NAME}/
       - docker build -t porsyab_front:latest .
       - docker builder prune -f
 
