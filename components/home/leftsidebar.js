@@ -8,7 +8,7 @@ const LeftSidebar = ({ data, t, last }) => {
   };
 
   return (
-    <HStack
+    data?.question_count > 0 && <HStack
       w="100%"
       alignItems="start"
       borderBottom={!last && "1px solid"}
