@@ -1,5 +1,6 @@
 import { baseUrl } from "@/components/lib/api";
 import MainLayout from "@/components/mainLayout";
+import { useUser } from "@/context/UserContext";
 import {
   Avatar,
   Badge,
@@ -29,10 +30,7 @@ import {
   IoArrowUp,
   IoBookmark,
   IoBookmarkOutline,
-  IoCheckmark,
-  IoClose,
-  IoPencil,
-  IoWarningOutline,
+  IoWarningOutline
 } from "react-icons/io5";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -63,12 +61,12 @@ const postActionRequest = (
 
 const patchRequest = (
   url,
-  { arg: { table_id, table_type, type_param, ...data } }
+  { arg: { action_id, ...data } }
 ) => {
-  return axios.post(
+  return axios.patch(
     baseUrl +
     url +
-    `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
+    `?action_id=${action_id}`,
     data,
     {
       headers: {
@@ -83,6 +81,8 @@ const Index = () => {
 
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [comment, setComment] = useState("");
+
+  const { dataMe, isLoadingMe } = useUser();
 
   const [isUserLogin, setIsUserLogin] = useState("");
 
@@ -112,21 +112,22 @@ const Index = () => {
     isLoading: isLoadingQuestion,
     mutate: mutateQuestion,
   } = useSWR(query?.id && `user/question?id=${query?.id}`);
-  const { data: dataQuestionAnswer, isLoading: isLoadingQuestionAnswer } =
+
+  const { data: dataQuestionAnswer, isLoading: isLoadingQuestionAnswer, mutate: muatteAnswer } =
     useSWR(query?.id && `user/question/answer?question_id=${query?.id}`);
 
   const { data: dataQuestionComment, isLoading: isLoadingComment } = useSWR(
     query?.id &&
     `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
   );
-  const { data: dataQuestionLike, isLoading: isLoadingLike } = useSWR(
+  const { data: dataQuestionLike, isLoading: isLoadingLike, mutate: mutateLike } = useSWR(
     query?.id &&
     `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
-  const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
-    query?.id &&
-    `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
-  );
+  // const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
+  //   query?.id &&
+  //   `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
+  // );
 
   const { data: dataQuestionSimilar, isLoading: isLoadingSimilar } = useSWR(
     dataQuestion?.data &&
@@ -147,6 +148,8 @@ const Index = () => {
     useSWRMutation(`user/action`, patchRequest, {
       onSuccess: () => {
         mutateQuestion();
+        muatteAnswer()
+        mutateLike()
       },
     });
   const {
@@ -156,6 +159,8 @@ const Index = () => {
   } = useSWRMutation(`user/action`, postActionRequest, {
     onSuccess: () => {
       mutateQuestion();
+      muatteAnswer()
+      mutateLike()
       resetComment();
     },
   });
@@ -164,18 +169,16 @@ const Index = () => {
     triggerAnswer({ ...e, id: query?.id, lang: "fa" });
   };
 
-  const handleAddAction = (type, action) => {
+  const handleAddAction = (type, action, id) => {
     triggerAddLike({
-      table_id: query?.id,
+      table_id: id || query?.id,
       table_type: type,
       type_param: action,
     });
   };
-  const handleUpdateAction = (type, action) => {
+  const handleUpdateAction = (type, action, action_id) => {
     triggerUpdateLike({
-      table_id: query?.id,
-      table_type: type,
-      type_param: action,
+      action_id
     });
   };
 
@@ -223,6 +226,10 @@ const Index = () => {
     setIsUserLogin(!!localStorage.getItem("token"));
   }, []);
 
+  useEffect(() => {
+    console.log(dataMe?.data?.[0]?.username)
+  }, [dataMe])
+
   return (
     <MainLayout>
       <Head>
@@ -264,7 +271,7 @@ const Index = () => {
                 size={"sm"}
                 onClick={(e) => {
                   if (dataQuestion?.data?.result?.[0]?.is_user_liked) {
-                    handleUpdateAction("question", "like");
+                    handleUpdateAction("question", "like", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id);
                   } else {
                     handleAddAction("question", "like");
                   }
@@ -281,12 +288,24 @@ const Index = () => {
               <IconButton
                 icon={
                   dataQuestion?.data?.result?.[0]?.is_user_saved ? (
-                    <IoBookmark color="orange" />
+                    <IoBookmark color="orange" onClick={(e) => {
+                      if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
+                        // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                      } else {
+                        handleAddAction("question", "save_message")
+                      }
+                    }
+                    } />
                   ) : (
                     <IoBookmarkOutline
                       color="gray"
-                      onClick={(e) =>
-                        handleAddAction("question", "save_message")
+                      onClick={(e) => {
+                        if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
+                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                        } else {
+                          handleAddAction("question", "save_message")
+                        }
+                      }
                       }
                     />
                   )
@@ -466,7 +485,7 @@ const Index = () => {
                         <IoWarningOutline color="gray" />
                       </HStack>
                     </Stack>
-                    <Box
+                    {/* <Box
                       w={"100%"}
                       padding={"10px"}
                       px={"20px"}
@@ -578,7 +597,7 @@ const Index = () => {
                           </HStack>
                         </Stack>
                       ))}
-                    </Box>
+                    </Box> */}
                     <Box
                       w={{ base: "fit-content", md: "100%" }}
                       padding={{ base: "none", md: "10px" }}
@@ -599,69 +618,108 @@ const Index = () => {
                           {t(dataQuestionAnswer?.data?.length == 1 ? "answer_one" : "answers")}
                         </Text>
                       </HStack>
-                      <HStack alignItems={"start"} gap={"10px"}>
-                        <VStack>
-                          <IconButton
-                            icon={<IoArrowUp color="gray" />}
-                            variant={"outline"}
-                            colorScheme="gray"
-                            borderRadius={"100%"}
-                            size={"sm"}
-                          />
-                          <IconButton
-                            icon={<IoArrowDown color="gray" />}
-                            variant={"outline"}
-                            colorScheme="gray"
-                            borderRadius={"100%"}
-                            size={"sm"}
-                          />
-                          <IconButton
-                            icon={<IoCheckmark color="white" />}
-                            variant={"ghost"}
-                            bgColor="#29CCCC"
-                            borderRadius={"100%"}
-                            size={"sm"}
-                          />
-                          <IconButton
-                            icon={
-                              <IoBookmarkOutline
-                                color="gray"
-                                fontSize={"20px"}
+                      {
+                        dataQuestionAnswer?.data?.map((answer) => (
+                          <HStack alignItems={"start"} gap={"10px"}>
+                            <VStack>
+                              <IconButton
+                                icon={
+                                  <IoArrowUp
+                                    color={
+                                      answer?.is_user_liked
+                                        ? "orange"
+                                        : "gray"
+                                    }
+                                  />
+                                }
+                                variant={"outline"}
+                                colorScheme={
+                                  answer?.is_user_liked
+                                    ? "orange"
+                                    : "gray"
+                                }
+                                borderRadius={"100%"}
+                                size={"sm"}
+                                onClick={(e) => {
+                                  if (answer?.is_user_liked) {
+                                    // handleUpdateAction("answer", "like", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id);
+                                  } else {
+                                    handleAddAction("answer", "like", answer?.id);
+                                  }
+                                }}
                               />
-                            }
-                            size={"sm"}
-                          />
-                        </VStack>
-                        <VStack w={"100%"} alignItems={"start"}>
-                          <Text
-                            lineHeight={"taller"}
-                            w={"fit-content"}
-                            textAlign={"justify"}
-                            fontSize={"18px"}
-                            whiteSpace="pre-wrap"
-                          >
-                            {dataQuestionAnswer?.data?.[0]?.content}
-                          </Text>
-                          <HStack
-                            w={"100%"}
-                            justifyContent={{
-                              base: "start",
-                              md: "space-between",
-                            }}
-                            mt={"10px"}
-                          >
-                            <HStack order={{ base: 1 }}>
-                              <Text fontSize={"sm"} color={"gray.500"}>
-                                {moment(
-                                  dataQuestionAnswer?.data?.[0]?.created_at
-                                ).format("jYYYY/jMM/jDD")}
+                              <IconButton
+                                icon={<IoArrowDown color="gray" />}
+                                variant={"outline"}
+                                colorScheme="gray"
+                                borderRadius={"100%"}
+                                size={"sm"}
+                              />
+                              {/* <IconButton
+                                icon={<IoCheckmark color="white" />}
+                                variant={"ghost"}
+                                bgColor="#29CCCC"
+                                borderRadius={"100%"}
+                                size={"sm"}
+                              /> */}
+                              <IconButton
+                                icon={
+                                  answer?.is_user_saved ? (
+                                    <IoBookmark color="orange" onClick={(e) => {
+                                      if (answer?.is_user_saved) {
+                                        // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                                      } else {
+                                        handleAddAction("answer", "save_message", answer?.id)
+                                      }
+                                    }
+                                    } />
+                                  ) : (
+                                    <IoBookmarkOutline
+                                      color="gray"
+                                      onClick={(e) => {
+                                        if (answer?.is_user_saved) {
+                                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                                        } else {
+                                          handleAddAction("answer", "save_message", answer?.id)
+                                        }
+                                      }
+                                      }
+                                    />
+                                  )
+                                }
+                                size={"lg"}
+                              />
+                            </VStack>
+                            <VStack w={"100%"} alignItems={"start"}>
+                              <Text
+                                lineHeight={"taller"}
+                                w={"fit-content"}
+                                textAlign={"justify"}
+                                fontSize={"18px"}
+                                whiteSpace="pre-wrap"
+                              >
+                                {answer?.content}
                               </Text>
-                              <Divider
+                              <HStack
+                                w={"100%"}
+                                justifyContent={{
+                                  base: "start",
+                                  md: "space-between",
+                                }}
+                                mt={"10px"}
+                              >
+                                <HStack order={{ base: 1 }}>
+                                  <Text fontSize={"sm"} color={"gray.500"}>
+                                    {moment(
+                                      answer?.created_at
+                                    ).format("jYYYY/jMM/jDD")}
+                                  </Text>
+                                  {/* <Divider
                                 height={"10px"}
                                 borderColor={"#EBEBEB"}
                                 orientation="vertical"
-                              />
-                              {slidesToShow != 1 && (
+                              /> */}
+                                  {/* {slidesToShow != 1 && (
                                 <HStack gap={0} alignItems={"center"}>
                                   <Button
                                     colorScheme="gray"
@@ -674,10 +732,10 @@ const Index = () => {
                                   </Button>
                                   <IoWarningOutline color="gray" />
                                 </HStack>
-                              )}
-                            </HStack>
-                          </HStack>
-                          {slidesToShow == 1 && (
+                              )} */}
+                                </HStack>
+                              </HStack>
+                              {/* {slidesToShow == 1 && (
                             <HStack gap={0} alignItems={"center"}>
                               <Button
                                 colorScheme="gray"
@@ -690,8 +748,8 @@ const Index = () => {
                               </Button>
                               <IoWarningOutline color="gray" />
                             </HStack>
-                          )}
-                          <Box
+                          )} */}
+                              {/* <Box
                             w={"100%"}
                             padding={"10px"}
                             px={"20px"}
@@ -712,9 +770,12 @@ const Index = () => {
                                 />
                               </HStack>
                             </HStack>
-                          </Box>
-                        </VStack>
-                      </HStack>
+                          </Box> */}
+                            </VStack>
+                          </HStack>
+                        ))
+                      }
+
                       <Divider mt={"20px"} borderColor={"gray.200"} />
                     </Box>
                     {!isUserLogin ? (

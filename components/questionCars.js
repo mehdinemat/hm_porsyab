@@ -69,6 +69,11 @@ const QuestionCard = ({ data, t, type = "question" }) => {
             whiteSpace="normal"
             lineHeight={"taller"}
             textAlign={"justify"}
+            onClick={e => handleQuestionRouter(
+              type === "question" ? data?.id : data?.question_id,
+              false
+            )}
+            cursor={'pointer'}
           >
             {data?.content}
           </Text>
@@ -140,8 +145,8 @@ const QuestionCard = ({ data, t, type = "question" }) => {
             {moment(data?.created_at).format("hh:mm:ss jYYYY/jMM/jDD")}
           </Text>
         </HStack>
-      </VStack>
-    </HStack>
+      </VStack >
+    </HStack >
   );
 };
 
