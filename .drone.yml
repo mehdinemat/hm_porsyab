@@ -43,7 +43,7 @@ steps:
       ENV_FILE:
         from_secret: deploy-env
     commands:
-      - cd porsyab_front/
+      - cd ${DRONE_REPO_NAME}/
       - echo "$ENV_FILE" > .env
       - docker stop porsyab_front || true
       - docker rm porsyab_front || true
