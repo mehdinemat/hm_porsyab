@@ -25,12 +25,12 @@ const QuestionCard = ({ data, t, type = "question" }) => {
     if (openInNewTab) {
       window.open(url, "_blank");
     } else {
-      router.replace(url);
+      router.push(url);
     }
   };
 
   const handleClickTags = (item) => {
-    router.replace(`/questions/tag/${item?.id}/${item?.name}`);
+    router.push(`/questions/tag/${item?.id}/${item?.name}`);
   };
 
   return (
@@ -42,10 +42,14 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       pb={"20px"}
       gap={"20px"}
       position="relative"
-
+      cursor={'pointer'}
+      zIndex={9}
     >
       {/* Left stats */}
-      <VStack w={"150px"} alignItems={"start"}>
+      <VStack w={"150px"} height={'100%'} alignItems={"start"} onClick={e => handleQuestionRouter(
+        type === "question" ? data?.id : data?.question_id,
+        false
+      )}>
         <HStack color={"gray.600"}>
           <GiBigDiamondRing fontSize={"20px"} />
           <Text fontSize={"16px"}>{data?.like_count} {t("like")}</Text>
@@ -61,7 +65,10 @@ const QuestionCard = ({ data, t, type = "question" }) => {
       </VStack>
 
       {/* Content section */}
-      <VStack w={"100%"} alignItems={"start"} gap={"20px"} position="relative">
+      <VStack w={"100%"} alignItems={"start"} gap={"20px"} position="relative" onClick={e => handleQuestionRouter(
+        type === "question" ? data?.id : data?.question_id,
+        false
+      )}>
         <HStack w="full" justifyContent="space-between" alignItems={'start'}>
           <Text
             fontSize={"18px"}
@@ -69,47 +76,14 @@ const QuestionCard = ({ data, t, type = "question" }) => {
             whiteSpace="normal"
             lineHeight={"taller"}
             textAlign={"justify"}
-            onClick={e => handleQuestionRouter(
-              type === "question" ? data?.id : data?.question_id,
-              false
-            )}
+
             cursor={'pointer'}
           >
             {data?.content}
           </Text>
 
           {/* More menu button */}
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              icon={<FiMoreVertical />}
-              size="sm"
-              variant="ghost"
-              aria-label="More options"
-            />
-            <MenuList>
-              <MenuItem
-                onClick={() =>
-                  handleQuestionRouter(
-                    type === "question" ? data?.id : data?.question_id,
-                    false
-                  )
-                }
-              >
-                {t("open_in_same_page")}
-              </MenuItem>
-              <MenuItem
-                onClick={() =>
-                  handleQuestionRouter(
-                    type === "question" ? data?.id : data?.question_id,
-                    true
-                  )
-                }
-              >
-                {t("open_in_new_tab")}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+
         </HStack>
 
         {/* Tags */}
@@ -146,6 +120,38 @@ const QuestionCard = ({ data, t, type = "question" }) => {
           </Text>
         </HStack>
       </VStack >
+      <Menu >
+        <MenuButton
+          zIndex={9999}
+          as={IconButton}
+          icon={<FiMoreVertical />}
+          size="sm"
+          variant="ghost"
+          aria-label="More options"
+        />
+        <MenuList>
+          <MenuItem
+            onClick={() =>
+              handleQuestionRouter(
+                type === "question" ? data?.id : data?.question_id,
+                false
+              )
+            }
+          >
+            {t("open_in_same_page")}
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              handleQuestionRouter(
+                type === "question" ? data?.id : data?.question_id,
+                true
+              )
+            }
+          >
+            {t("open_in_new_tab")}
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </HStack >
   );
 };
