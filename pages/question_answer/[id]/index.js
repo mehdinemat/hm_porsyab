@@ -161,6 +161,7 @@ const Index = () => {
         mutateQuestion();
         muatteAnswer();
         mutateLike();
+        mutateAnswerLike();
       },
     });
   const {
@@ -173,6 +174,7 @@ const Index = () => {
       muatteAnswer();
       mutateLike();
       resetComment();
+      mutateAnswerLike();
     },
   });
 
@@ -679,6 +681,7 @@ const Index = () => {
                                 }
                               }}
                             />
+                            <Text>{dataAnswerLike?.data?.count}</Text>
                             <IconButton
                               icon={<IoArrowDown color="gray" />}
                               variant={"outline"}
