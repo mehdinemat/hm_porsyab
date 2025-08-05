@@ -149,7 +149,7 @@ export default function Home({ children }) {
     <MainLayout>
       <Head>
         <title>{`${t("parsa")} | ${t("topic")} : ${slug}`}</title>
-        <link rel="icon" href="/question.png" />
+        <link rel="icon" href="/porsyab_header.png" />
       </Head>
       {/* <Header
         data={dataGeneral?.data}
