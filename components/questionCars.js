@@ -25,7 +25,7 @@ const QuestionCard = ({ data, t, type = "question" }) => {
     if (openInNewTab) {
       window.open(url, "_blank");
     } else {
-      router.push(url);
+      router.replace(url);
     }
   };
 

@@ -1,6 +1,5 @@
 import { baseUrl } from "@/components/lib/api";
 import MainLayout from "@/components/mainLayout";
-import { useUser } from "@/context/UserContext";
 import {
   Avatar,
   Badge,
@@ -82,7 +81,6 @@ const Index = () => {
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [comment, setComment] = useState("");
 
-  const { dataMe, isLoadingMe } = useUser();
 
   const [isUserLogin, setIsUserLogin] = useState("");
 
@@ -124,6 +122,11 @@ const Index = () => {
     query?.id &&
     `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
+
+  const { data: dataMe, isLoading: isLoadingMe, error } = useSWR(
+    isUserLogin ? "user/client/me" : null
+  );
+
 
   // const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
   //   query?.id &&
@@ -278,6 +281,7 @@ const Index = () => {
                   }
                 }}
               />
+              {console.log(dataQuestionLike?.data?.result, dataMe?.data?.[0]?.username)}
               <Text>{dataQuestionLike?.data?.count}</Text>
               <IconButton
                 icon={<IoArrowDown color="gray" />}
