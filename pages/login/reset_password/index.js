@@ -2,14 +2,13 @@ import { baseUrl } from "@/components/lib/api";
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   HStack,
   Image,
   Input,
   Text,
   useToast,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import axios from "axios";
 import dynamic from "next/dynamic";
@@ -161,11 +160,11 @@ const Index = () => {
           display={{ base: "none", md: "flex" }}
         >
           {/* Base / background image */}
-          <Image src="/loginbg.png" objectFit="cover" w="100%" h="100%" />
+          <Image src="/porsyabhomeheader.png" objectFit="cover" w="100%" h="100%" />
 
           {/* Overlay / centered image */}
           <Image
-            src="/loginlogoqu.png"
+            src="/porsyab_header.png"
             alt="Centered Image"
             position="absolute"
             top="50%"

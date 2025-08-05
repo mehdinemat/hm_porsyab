@@ -37,7 +37,7 @@ const Index = () => {
 
   const { trigger, isLoading, isMutating } = useSWRMutation(
     "user/auth",
-    postRequest,  
+    postRequest,
     {
       onSuccess: (data) => {
         if (data?.data?.status) {
@@ -69,7 +69,7 @@ const Index = () => {
     router.replace("/register");
   };
 
-  const handleForgetPasswordClick = ()=>{
+  const handleForgetPasswordClick = () => {
     router.push('forget_password')
   }
 
@@ -189,11 +189,11 @@ const Index = () => {
           display={{ base: "none", md: "flex" }}
         >
           {/* Base / background image */}
-          <Image src="/loginbg.png" objectFit="cover" w="100%" h="100%" />
+          <Image src="/porsyabhomeheader.png" objectFit="cover" w="100%" h="100%" />
 
           {/* Overlay / centered image */}
           <Image
-            src="/loginlogoqu.png"
+            src="/porsyab_header.png"
             alt="Centered Image"
             position="absolute"
             top="50%"

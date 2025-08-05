@@ -1,3 +1,4 @@
+import PhoneInput from "@/components/base/PhoneInput";
 import { baseUrl } from "@/components/lib/api";
 import {
   Box,
@@ -5,21 +6,19 @@ import {
   Divider,
   HStack,
   Image,
-  Input,
   Text,
   useToast,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useSWRMutation from "swr/mutation";
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
-import PhoneInput from "@/components/base/PhoneInput";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
@@ -122,7 +121,7 @@ const Index = () => {
             justifyContent={"center"}
             height={"100%"}
           >
-               <Image
+            <Image
               src="/porsyab.png"
               width={{ base: "120px", md: "110px" }}
               height={{ base: "50px", md: "138px" }}
@@ -167,11 +166,11 @@ const Index = () => {
           display={{ base: "none", md: "flex" }}
         >
           {/* Base / background image */}
-          <Image src="/loginbg.png" objectFit="cover" w="100%" h="100%" />
+          <Image src="/porsyabhomeheader.png" objectFit="cover" w="100%" h="100%" />
 
           {/* Overlay / centered image */}
           <Image
-            src="/loginlogoqu.png"
+            src="/porsyab_header.png"
             alt="Centered Image"
             position="absolute"
             top="50%"
