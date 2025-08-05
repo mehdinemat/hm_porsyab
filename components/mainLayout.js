@@ -176,7 +176,7 @@ const MainLayout = ({ children }) => {
 
   const handleExit = () => {
     localStorage.removeItem("token");
-    router.replace("/");
+    window.open("/", "_self");
   };
 
   useEffect(() => {
