@@ -121,12 +121,30 @@ const Index = () => {
   );
 
   const {
+    data: dataQuestionBookmark,
+    isLoading: isLoadingBookmark,
+    mutate: mutateBookmark,
+  } = useSWR(
+    query?.id &&
+    `user/action?table_id=${query?.id}&table_type=question&type_param=save_message`
+  );
+
+  const {
     data: dataAnswerLike,
     isLoading: isLoadingAnswerLike,
     mutate: mutateAnswerLike,
   } = useSWR(
     dataQuestionAnswer?.data &&
     `user/action?table_id=${dataQuestionAnswer?.data?.[0]?.id}&table_type=answer&type_param=like`
+  );
+
+  const {
+    data: dataAnswerBookmard,
+    isLoading: isLoadingAnswerBookmard,
+    mutate: mutateAnswerBookmard,
+  } = useSWR(
+    dataQuestionAnswer?.data &&
+    `user/action?table_id=${dataQuestionAnswer?.data?.[0]?.id}&table_type=answer&type_param=save_message`
   );
 
   const {
@@ -316,7 +334,7 @@ const Index = () => {
                       color="orange"
                       onClick={(e) => {
                         if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
-                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                          handleUpdateAction("question", "save_message", dataQuestionBookmark?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
                         } else {
                           handleAddAction("question", "save_message");
                         }
@@ -327,7 +345,7 @@ const Index = () => {
                       color="gray"
                       onClick={(e) => {
                         if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
-                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                          handleUpdateAction("question", "save_message", dataQuestionBookmark?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
                         } else {
                           handleAddAction("question", "save_message");
                         }
@@ -705,7 +723,7 @@ const Index = () => {
                                         handleUpdateAction(
                                           "question",
                                           "save_message",
-                                          dataQuestionLike?.data?.result?.find(
+                                          dataAnswerBookmard?.data?.result?.find(
                                             (user) =>
                                               user?.user__username ==
                                               dataMe?.data?.[0]?.username
@@ -725,7 +743,7 @@ const Index = () => {
                                     color="gray"
                                     onClick={(e) => {
                                       if (answer?.is_user_saved) {
-                                        // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                                        handleUpdateAction("question", "save_message", dataAnswerBookmard?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
                                       } else {
                                         handleAddAction(
                                           "answer",

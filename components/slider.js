@@ -4,17 +4,63 @@ import {
   Button,
   Flex,
   HStack,
+  IconButton,
   Text,
   useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
+
+
 const SliderCom = ({ items, height, borderRadius, width = "auto", title }) => {
+
+  const NextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <IconButton
+        aria-label="Next Slide"
+        icon={<FaArrowAltCircleRight />}
+        onClick={onClick}
+        position="absolute"
+        right="10px"
+        top="50%"
+        transform="translateY(-50%)"
+        zIndex={2}
+        variant="ghost"
+        size="xl"
+        color={'blue.200'}
+        fontSize={'20px'}
+      />
+    );
+  };
+
+  const PrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <IconButton
+        aria-label="Previous Slide"
+        icon={<FaArrowAltCircleLeft />}
+        color={'blue.200'}
+        onClick={onClick}
+        position="absolute"
+        left="10px"
+        top="50%"
+        transform="translateY(-50%)"
+        zIndex={2}
+        variant="ghost"
+        size="xl"
+        fontSize={'20px'}
+      />
+    );
+  };
+
+
   const slidesToShow = useBreakpointValue({ base: 1, md: 2, lg: 4 }); // responsive value
 
   const sliderSettings = {
@@ -24,10 +70,12 @@ const SliderCom = ({ items, height, borderRadius, width = "auto", title }) => {
     slidesToShow: slidesToShow == 1 ? 2 : 5, // or 1 or 2
     slidesToScroll: 1,
     rtl: false, // for RTL support
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   const handlePublicFiqure = (item) => {
-    router.push(`/questions/public_fiqure/${item?.id}/${item?.title}`);
+    window.open(`${item?.website}`, '_blank');
   };
 
   const router = useRouter();
