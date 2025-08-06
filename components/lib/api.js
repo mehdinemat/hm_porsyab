@@ -29,7 +29,7 @@ export const useAxiosInterceptors = (showToast) => {
           title: "موفقیت",
           description: response?.data?.detail,
           status: "success",
-          duration: 500,
+          duration: 3000,
           isClosable: true,
         })
       }
