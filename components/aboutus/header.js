@@ -57,7 +57,7 @@ const Header = ({ children }) => {
 
   return (
     <Box
-      marginTop={{base:'20px' , md:"100px"}}
+      marginTop={{ base: '20px', md: "100px" }}
       as={Stack}
       justifyContent={"center"}
       alignItems={"center"}
@@ -91,7 +91,7 @@ const Header = ({ children }) => {
             textAlign={'center'}
           // position={"absolute"}
           >
-            <Text color={'#29CCCC'} fontSize={'18px'}>پارسا</Text>
+            <Text color={'#29CCCC'} fontSize={'18px'}>پرس یاب</Text>
             <Text color={'white'} fontWeight={'bold'} fontSize={'26px'} my={'10px'}>درباره ما</Text>
             <Text color={'white'} >شبکه اجتماعی پرسش و پاسخ دینی</Text>
           </Stack>
