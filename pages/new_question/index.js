@@ -9,11 +9,11 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  HStack,
+  Input,
   List,
   ListItem,
   Spinner,
-  HStack,
-  Input,
   Text,
   Textarea,
   VStack,
@@ -167,6 +167,7 @@ const Index = () => {
           maxW="container.xl"
           mx="auto"
           mt={{ base: "80px", md: "120px" }}
+          mb={'20px'}
           onSubmit={handleSubmitQuestion(handleAddNewQuestion)}
         >
           <Text fontWeight={"bold"} fontSize={"20px"} mb={"30px"}>
