@@ -56,8 +56,8 @@ const Index = () => {
 
         </HStack>
         <VStack w={'100%'} alignItems={'center'} my={'40px'}>
-          <Text fontWeight={'bold'} fontSize={'20px'}>ویژگی‌های پرس یاب</Text>
-          <Text>گروه پرس یاب در اين زمينه تلاش هايی به عمل آورده است که از جمله آن به موارد زیر  می‌توان اشاره نمود.</Text>
+          <Text fontWeight={'bold'} fontSize={'20px'}>ویژگی‌های پرس‌یاب</Text>
+          <Text>گروه پرس‌یاب در اين زمينه تلاش هايی به عمل آورده است که از جمله آن به موارد زیر  می‌توان اشاره نمود.</Text>
         </VStack>
         <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }} gap={"20px"} w={"100%"}>
           <VStack>
@@ -112,7 +112,7 @@ const Index = () => {
         <HStack w={'100%'} justifyContent={'center'} my={'40px'} position={'relative'}>
           <Image src="../../parsaoutline.png" width={{ base: '300px', md: '750px' }} height={{ base: '150px', md: '300px' }} />
           <VStack position={'absolute'}>
-            <Text fontWeight={'bold'} fontSize={'20px'}>تیم پرس یاب</Text>
+            <Text fontWeight={'bold'} fontSize={'20px'}>تیم پرس‌یاب</Text>
             <Text color={'gray'}>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</Text>
           </VStack>
         </HStack>
