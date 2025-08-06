@@ -458,7 +458,7 @@ const MainLayout = ({ children }) => {
                     width={"70px"}
                     height={"50px"}
                   />
-                  <Text w={"326px"} fontSize={"16px"}>
+                  <Text w={"326px"} fontSize={"16px"} textAlign={"justify"}>
                     {t("footer_parsa_info")}
                   </Text>
                 </VStack>

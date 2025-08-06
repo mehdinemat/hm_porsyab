@@ -47,8 +47,8 @@ const postActionRequest = (
 ) => {
   return axios.post(
     baseUrl +
-      url +
-      `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
+    url +
+    `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
     data,
     {
       headers: {
@@ -109,7 +109,7 @@ const Index = () => {
 
   const { data: dataQuestionComment, isLoading: isLoadingComment } = useSWR(
     query?.id &&
-      `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
+    `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
   );
   const {
     data: dataQuestionLike,
@@ -117,7 +117,7 @@ const Index = () => {
     mutate: mutateLike,
   } = useSWR(
     query?.id &&
-      `user/action?table_id=${query?.id}&table_type=question&type_param=like`
+    `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
 
   const {
@@ -126,7 +126,7 @@ const Index = () => {
     mutate: mutateAnswerLike,
   } = useSWR(
     dataQuestionAnswer?.data &&
-      `user/action?table_id=${dataQuestionAnswer?.data?.[0]?.id}&table_type=answer&type_param=like`
+    `user/action?table_id=${dataQuestionAnswer?.data?.[0]?.id}&table_type=answer&type_param=like`
   );
 
   const {
@@ -142,7 +142,7 @@ const Index = () => {
 
   const { data: dataQuestionSimilar, isLoading: isLoadingSimilar } = useSWR(
     dataQuestion?.data &&
-      `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
+    `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
   );
 
   const {
@@ -208,8 +208,7 @@ const Index = () => {
 
   const handleClickSource = (source) => {
     router.replace(
-      `/questions?source=${
-        dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
+      `/questions?source=${dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
       }`
     );
   };
