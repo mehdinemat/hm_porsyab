@@ -4,18 +4,17 @@ import QuestionCard from "@/components/questionCars";
 import {
   Box,
   Button,
-  Divider,
   Grid,
   GridItem,
   HStack,
   Stack,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
-import { BiSortAlt2 } from "react-icons/bi";
-import RightSidebar from "../rightSidebar";
 import { useTranslation } from "react-i18next";
+import { BiSortAlt2 } from "react-icons/bi";
 import useSWR from "swr";
+import RightSidebar from "../rightSidebar";
 
 const Index = () => {
   const { data: dataQuestions, isLoading } = useSWR(`user/client/my-questions`);
@@ -51,7 +50,7 @@ const Index = () => {
                 alignItems={"center"}
               >
                 <Text fontWeight={"bold"} fontSize={"16px"}>
-                  سؤال‌ها
+                  سوال ها
                 </Text>
                 {/* <Button
                   width={"189px"}
@@ -126,7 +125,7 @@ const Index = () => {
               </VStack>
               <VStack display={{ base: "flex", md: "none" }}>
                 {dataQuestions?.data?.map((item) => (
-                  <QuestionMCard t={t} data={item}/>
+                  <QuestionMCard t={t} data={item} />
                 ))}
               </VStack>
             </Box>

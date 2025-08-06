@@ -31,7 +31,7 @@ const Index = () => {
                 alignItems={"center"}
               >
                 <Text fontWeight={"bold"} fontSize={"16px"}>
-                  سؤال‌ها
+                  سوال ها
                 </Text>
                 <Button
                   width={"189px"}
