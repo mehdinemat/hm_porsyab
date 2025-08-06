@@ -398,8 +398,7 @@ const MainLayout = ({ children }) => {
                       onClick={(e) => handleProfileLink()}
                     >
                       {" "}
-                      {dataMe?.data?.[0]?.first_name}{" "}
-                      {dataMe?.data?.[0]?.last_name}
+                      مشاهده پروفایل
                     </MenuItem>
                     <Divider />
                     <MenuItem onClick={(e) => handleExit()}>خروج</MenuItem>
