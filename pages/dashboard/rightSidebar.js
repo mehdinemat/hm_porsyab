@@ -10,7 +10,6 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsReply } from "react-icons/bs";
-import { CiFileOn } from "react-icons/ci";
 import { FaQuestion } from "react-icons/fa";
 import { GiGlobeRing } from "react-icons/gi";
 import {
@@ -24,7 +23,7 @@ const menuList = [
   { title: "پروفایل", icon: <IoPersonOutline />, link: "profile" },
   { title: "پرسش‌ها", icon: <FaQuestion />, link: "questions" },
   { title: "پاسخ‌ها", icon: <BsReply />, link: "answers" },
-  { title: "نوشته‌ها", icon: <CiFileOn />, link: "writting" },
+  // { title: "نوشته‌ها", icon: <CiFileOn />, link: "writting" },
   { title: "حسنات", icon: <GiGlobeRing />, link: "goods" },
   { title: "دوستان", icon: <IoPeopleOutline />, link: "friends" },
   { title: "حساب کاربری", icon: <IoSettingsOutline />, link: "account" },

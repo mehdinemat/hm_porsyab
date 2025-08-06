@@ -5,15 +5,15 @@ import { CiFileOn } from "react-icons/ci";
 import { FaQuestion } from "react-icons/fa";
 import { GiGlobeRing } from "react-icons/gi";
 import { IoPeopleOutline, IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
-import RightSidebar from "../rightSidebar";
 import useSWR from "swr";
+import RightSidebar from "../rightSidebar";
 
 
 const menuList = [
   { title: 'پروفایل', icon: <IoPersonOutline /> },
   { title: 'پرسش‌ها', icon: <FaQuestion /> },
   { title: 'پاسخ‌ها', icon: <BsReply /> },
-  { title: 'نوشته‌ها', icon: <CiFileOn /> },
+  // { title: 'نوشته‌ها', icon: <CiFileOn /> },
   { title: 'حسنات', icon: <GiGlobeRing /> },
   { title: 'دوستان', icon: <IoPeopleOutline /> },
   { title: 'حساب کاربری', icon: <IoSettingsOutline /> },
@@ -21,7 +21,7 @@ const menuList = [
 
 const Index = () => {
 
-    const { data: dataMe, isLoading: isLoadingMe } = useSWR(`user/client/me`);
+  const { data: dataMe, isLoading: isLoadingMe } = useSWR(`user/client/me`);
 
   return (
     <MainLayout>

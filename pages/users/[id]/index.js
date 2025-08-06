@@ -1,16 +1,16 @@
 import MainLayout from "@/components/mainLayout";
 import {
-  Badge,
   Box,
-  Divider,
   Grid,
   GridItem,
   HStack,
   Image,
   Stack,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { BsReply } from "react-icons/bs";
 import { CiFileOn } from "react-icons/ci";
 import { FaQuestion } from "react-icons/fa";
@@ -20,20 +20,14 @@ import {
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
-import RightSidebar from "../rightSidebar";
-import { useRouter } from "next/router";
 import useSWR from "swr";
-import { useTranslation } from "react-i18next";
-import { useMemo } from "react";
-import useSWRMutation from "swr/mutation";
-import axios from "axios";
-import { baseUrl } from "@/components/lib/api";
+import RightSidebar from "../rightSidebar";
 
 const menuList = [
   { title: "پروفایل", icon: <IoPersonOutline /> },
   { title: "پرسش‌ها", icon: <FaQuestion /> },
   { title: "پاسخ‌ها", icon: <BsReply /> },
-  { title: "نوشته‌ها", icon: <CiFileOn /> },
+  // { title: "نوشته‌ها", icon: <CiFileOn /> },
   { title: "حسنات", icon: <GiGlobeRing /> },
   { title: "دوستان", icon: <IoPeopleOutline /> },
   { title: "حساب کاربری", icon: <IoSettingsOutline /> },
@@ -71,7 +65,7 @@ const Index = () => {
         >
           <GridItem colSpan={1} display={{ base: "none", md: "flex" }}>
             {dataUser?.data?.result?.[0] && (
-              <RightSidebar user={dataUser?.data?.result?.[0]}  mutate={mutateUser}/>
+              <RightSidebar user={dataUser?.data?.result?.[0]} mutate={mutateUser} />
             )}
           </GridItem>
           <GridItem as={Stack} gap={"20px"} colSpan={3}>
