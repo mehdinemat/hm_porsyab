@@ -29,7 +29,7 @@ import {
   IoArrowUp,
   IoBookmark,
   IoBookmarkOutline,
-  IoWarningOutline
+  IoWarningOutline,
 } from "react-icons/io5";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -47,8 +47,8 @@ const postActionRequest = (
 ) => {
   return axios.post(
     baseUrl +
-    url +
-    `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
+      url +
+      `?table_type=${table_type}&table_id=${table_id}&type_param=${type_param}`,
     data,
     {
       headers: {
@@ -58,21 +58,12 @@ const postActionRequest = (
   );
 };
 
-const patchRequest = (
-  url,
-  { arg: { action_id, ...data } }
-) => {
-  return axios.patch(
-    baseUrl +
-    url +
-    `?action_id=${action_id}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+const patchRequest = (url, { arg: { action_id, ...data } }) => {
+  return axios.patch(baseUrl + url + `?action_id=${action_id}`, data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 };
 
 const Index = () => {
@@ -80,7 +71,6 @@ const Index = () => {
 
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [comment, setComment] = useState("");
-
 
   const [isUserLogin, setIsUserLogin] = useState("");
 
@@ -111,22 +101,39 @@ const Index = () => {
     mutate: mutateQuestion,
   } = useSWR(query?.id && `user/question?id=${query?.id}`);
 
-  const { data: dataQuestionAnswer, isLoading: isLoadingQuestionAnswer, mutate: muatteAnswer } =
-    useSWR(query?.id && `user/question/answer?question_id=${query?.id}`);
+  const {
+    data: dataQuestionAnswer,
+    isLoading: isLoadingQuestionAnswer,
+    mutate: muatteAnswer,
+  } = useSWR(query?.id && `user/question/answer?question_id=${query?.id}`);
 
   const { data: dataQuestionComment, isLoading: isLoadingComment } = useSWR(
     query?.id &&
-    `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
+      `user/action?table_id=${query?.id}&table_type=question&type_param=comment`
   );
-  const { data: dataQuestionLike, isLoading: isLoadingLike, mutate: mutateLike } = useSWR(
+  const {
+    data: dataQuestionLike,
+    isLoading: isLoadingLike,
+    mutate: mutateLike,
+  } = useSWR(
     query?.id &&
-    `user/action?table_id=${query?.id}&table_type=question&type_param=like`
+      `user/action?table_id=${query?.id}&table_type=question&type_param=like`
   );
 
-  const { data: dataMe, isLoading: isLoadingMe, error } = useSWR(
-    isUserLogin ? "user/client/me" : null
+  const {
+    data: dataAnswerLike,
+    isLoading: isLoadingAnswerLike,
+    mutate: mutateAnswerLike,
+  } = useSWR(
+    dataQuestionAnswer?.data &&
+      `user/action?table_id=${dataQuestionAnswer?.data?.[0]?.id}&table_type=answer&type_param=like`
   );
 
+  const {
+    data: dataMe,
+    isLoading: isLoadingMe,
+    error,
+  } = useSWR(isUserLogin ? "user/client/me" : null);
 
   // const { data: dataQuestionSave, isLoading: isLoadingSave } = useSWR(
   //   query?.id &&
@@ -135,7 +142,7 @@ const Index = () => {
 
   const { data: dataQuestionSimilar, isLoading: isLoadingSimilar } = useSWR(
     dataQuestion?.data &&
-    `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
+      `user/question/similar-questions?question_elastic_id=${dataQuestion?.data?.result?.[0]?.elastic_id}`
   );
 
   const {
@@ -152,8 +159,9 @@ const Index = () => {
     useSWRMutation(`user/action`, patchRequest, {
       onSuccess: () => {
         mutateQuestion();
-        muatteAnswer()
-        mutateLike()
+        muatteAnswer();
+        mutateLike();
+        mutateAnswerLike();
       },
     });
   const {
@@ -163,9 +171,10 @@ const Index = () => {
   } = useSWRMutation(`user/action`, postActionRequest, {
     onSuccess: () => {
       mutateQuestion();
-      muatteAnswer()
-      mutateLike()
+      muatteAnswer();
+      mutateLike();
       resetComment();
+      mutateAnswerLike();
     },
   });
 
@@ -182,7 +191,7 @@ const Index = () => {
   };
   const handleUpdateAction = (type, action, action_id) => {
     triggerUpdateLike({
-      action_id
+      action_id,
     });
   };
 
@@ -199,7 +208,8 @@ const Index = () => {
 
   const handleClickSource = (source) => {
     router.replace(
-      `/questions?source=${dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
+      `/questions?source=${
+        dataSource?.data?.find((it) => it?.fa_source_name == source)?.id
       }`
     );
   };
@@ -231,8 +241,8 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dataMe?.data?.[0]?.username)
-  }, [dataMe])
+    console.log(dataMe?.data?.[0]?.username);
+  }, [dataMe]);
 
   return (
     <MainLayout>
@@ -275,13 +285,23 @@ const Index = () => {
                 size={"sm"}
                 onClick={(e) => {
                   if (dataQuestion?.data?.result?.[0]?.is_user_liked) {
-                    handleUpdateAction("question", "like", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id);
+                    handleUpdateAction(
+                      "question",
+                      "like",
+                      dataQuestionLike?.data?.result?.find(
+                        (user) =>
+                          user?.user__username == dataMe?.data?.[0]?.username
+                      )?.id
+                    );
                   } else {
                     handleAddAction("question", "like");
                   }
                 }}
               />
-              {console.log(dataQuestionLike?.data?.result, dataMe?.data?.[0]?.username)}
+              {console.log(
+                dataQuestionLike?.data?.result,
+                dataMe?.data?.[0]?.username
+              )}
               <Text>{dataQuestionLike?.data?.count}</Text>
               <IconButton
                 icon={<IoArrowDown color="gray" />}
@@ -293,14 +313,16 @@ const Index = () => {
               <IconButton
                 icon={
                   dataQuestion?.data?.result?.[0]?.is_user_saved ? (
-                    <IoBookmark color="orange" onClick={(e) => {
-                      if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
-                        // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
-                      } else {
-                        handleAddAction("question", "save_message")
-                      }
-                    }
-                    } />
+                    <IoBookmark
+                      color="orange"
+                      onClick={(e) => {
+                        if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
+                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
+                        } else {
+                          handleAddAction("question", "save_message");
+                        }
+                      }}
+                    />
                   ) : (
                     <IoBookmarkOutline
                       color="gray"
@@ -308,10 +330,9 @@ const Index = () => {
                         if (dataQuestion?.data?.result?.[0]?.is_user_saved) {
                           // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
                         } else {
-                          handleAddAction("question", "save_message")
+                          handleAddAction("question", "save_message");
                         }
-                      }
-                      }
+                      }}
                     />
                   )
                 }
@@ -620,111 +641,136 @@ const Index = () => {
                         my={"10px"}
                       >
                         <Text fontWeight={"bold"} fontSize={"18px"}>
-                          {t(dataQuestionAnswer?.data?.length == 1 ? "answer_one" : "answers")}
+                          {t(
+                            dataQuestionAnswer?.data?.length == 1
+                              ? "answer_one"
+                              : "answers"
+                          )}
                         </Text>
                       </HStack>
-                      {
-                        dataQuestionAnswer?.data?.map((answer) => (
-                          <HStack alignItems={"start"} gap={"10px"}>
-                            <VStack>
-                              <IconButton
-                                icon={
-                                  <IoArrowUp
-                                    color={
-                                      answer?.is_user_liked
-                                        ? "orange"
-                                        : "gray"
-                                    }
-                                  />
-                                }
-                                variant={"outline"}
-                                colorScheme={
-                                  answer?.is_user_liked
-                                    ? "orange"
-                                    : "gray"
-                                }
-                                borderRadius={"100%"}
-                                size={"sm"}
-                                onClick={(e) => {
-                                  if (answer?.is_user_liked) {
-                                    // handleUpdateAction("answer", "like", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id);
-                                  } else {
-                                    handleAddAction("answer", "like", answer?.id);
+                      {dataQuestionAnswer?.data?.map((answer) => (
+                        <HStack alignItems={"start"} gap={"10px"}>
+                          <VStack>
+                            <IconButton
+                              icon={
+                                <IoArrowUp
+                                  color={
+                                    answer?.is_user_liked ? "orange" : "gray"
                                   }
-                                }}
-                              />
-                              <IconButton
-                                icon={<IoArrowDown color="gray" />}
-                                variant={"outline"}
-                                colorScheme="gray"
-                                borderRadius={"100%"}
-                                size={"sm"}
-                              />
-                              {/* <IconButton
+                                />
+                              }
+                              variant={"outline"}
+                              colorScheme={
+                                answer?.is_user_liked ? "orange" : "gray"
+                              }
+                              borderRadius={"100%"}
+                              size={"sm"}
+                              onClick={(e) => {
+                                if (answer?.is_user_liked) {
+                                  handleUpdateAction(
+                                    "answer",
+                                    "like",
+                                    dataAnswerLike?.data?.result?.find(
+                                      (user) =>
+                                        user?.user__username ==
+                                        dataMe?.data?.[0]?.username
+                                    )?.id
+                                  );
+                                } else {
+                                  handleAddAction("answer", "like", answer?.id);
+                                }
+                              }}
+                            />
+                            <Text>{dataAnswerLike?.data?.count}</Text>
+                            <IconButton
+                              icon={<IoArrowDown color="gray" />}
+                              variant={"outline"}
+                              colorScheme="gray"
+                              borderRadius={"100%"}
+                              size={"sm"}
+                            />
+                            {/* <IconButton
                                 icon={<IoCheckmark color="white" />}
                                 variant={"ghost"}
                                 bgColor="#29CCCC"
                                 borderRadius={"100%"}
                                 size={"sm"}
                               /> */}
-                              <IconButton
-                                icon={
-                                  answer?.is_user_saved ? (
-                                    <IoBookmark color="orange" onClick={(e) => {
+                            <IconButton
+                              icon={
+                                answer?.is_user_saved ? (
+                                  <IoBookmark
+                                    color="orange"
+                                    onClick={(e) => {
+                                      if (answer?.is_user_saved) {
+                                        handleUpdateAction(
+                                          "question",
+                                          "save_message",
+                                          dataQuestionLike?.data?.result?.find(
+                                            (user) =>
+                                              user?.user__username ==
+                                              dataMe?.data?.[0]?.username
+                                          )?.id
+                                        );
+                                      } else {
+                                        handleAddAction(
+                                          "answer",
+                                          "save_message",
+                                          answer?.id
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  <IoBookmarkOutline
+                                    color="gray"
+                                    onClick={(e) => {
                                       if (answer?.is_user_saved) {
                                         // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
                                       } else {
-                                        handleAddAction("answer", "save_message", answer?.id)
+                                        handleAddAction(
+                                          "answer",
+                                          "save_message",
+                                          answer?.id
+                                        );
                                       }
-                                    }
-                                    } />
-                                  ) : (
-                                    <IoBookmarkOutline
-                                      color="gray"
-                                      onClick={(e) => {
-                                        if (answer?.is_user_saved) {
-                                          // handleUpdateAction("question", "save_message", dataQuestionLike?.data?.result?.find((user) => (user?.user__username == dataMe?.data?.[0]?.username))?.id)
-                                        } else {
-                                          handleAddAction("answer", "save_message", answer?.id)
-                                        }
-                                      }
-                                      }
-                                    />
-                                  )
-                                }
-                                size={"lg"}
-                              />
-                            </VStack>
-                            <VStack w={"100%"} alignItems={"start"}>
-                              <Text
-                                lineHeight={"taller"}
-                                w={"fit-content"}
-                                textAlign={"justify"}
-                                fontSize={"18px"}
-                                whiteSpace="pre-wrap"
-                              >
-                                {answer?.content}
-                              </Text>
-                              <HStack
-                                w={"100%"}
-                                justifyContent={{
-                                  base: "start",
-                                  md: "space-between",
-                                }}
-                                mt={"10px"}
-                              >
-                                <HStack order={{ base: 1 }}>
-                                  <Text fontSize={"sm"} color={"gray.500"}>
-                                    {moment(
-                                      answer?.created_at
-                                    ).format("jYYYY/jMM/jDD")}
-                                  </Text>
-                                  {/* <Divider
+                                    }}
+                                  />
+                                )
+                              }
+                              size={"lg"}
+                            />
+                          </VStack>
+                          <VStack w={"100%"} alignItems={"start"}>
+                            <Text
+                              lineHeight={"taller"}
+                              w={"fit-content"}
+                              textAlign={"justify"}
+                              fontSize={"18px"}
+                              whiteSpace="pre-wrap"
+                            >
+                              {answer?.content}
+                            </Text>
+                            <HStack
+                              w={"100%"}
+                              justifyContent={{
+                                base: "start",
+                                md: "space-between",
+                              }}
+                              mt={"10px"}
+                            >
+                              <HStack order={{ base: 1 }}>
+                                <Text fontSize={"sm"} color={"gray.500"}>
+                                  {moment(answer?.created_at).format(
+                                    "jYYYY/jMM/jDD"
+                                  )}
+                                </Text>
+                                {/* <Divider
                                 height={"10px"}
                                 borderColor={"#EBEBEB"}
                                 orientation="vertical"
                               /> */}
-                                  {/* {slidesToShow != 1 && (
+                                {/* {slidesToShow != 1 && (
                                 <HStack gap={0} alignItems={"center"}>
                                   <Button
                                     colorScheme="gray"
@@ -738,9 +784,9 @@ const Index = () => {
                                   <IoWarningOutline color="gray" />
                                 </HStack>
                               )} */}
-                                </HStack>
                               </HStack>
-                              {/* {slidesToShow == 1 && (
+                            </HStack>
+                            {/* {slidesToShow == 1 && (
                             <HStack gap={0} alignItems={"center"}>
                               <Button
                                 colorScheme="gray"
@@ -754,7 +800,7 @@ const Index = () => {
                               <IoWarningOutline color="gray" />
                             </HStack>
                           )} */}
-                              {/* <Box
+                            {/* <Box
                             w={"100%"}
                             padding={"10px"}
                             px={"20px"}
@@ -776,10 +822,9 @@ const Index = () => {
                               </HStack>
                             </HStack>
                           </Box> */}
-                            </VStack>
-                          </HStack>
-                        ))
-                      }
+                          </VStack>
+                        </HStack>
+                      ))}
 
                       <Divider mt={"20px"} borderColor={"gray.200"} />
                     </Box>
@@ -886,7 +931,9 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(similar?.id)}
                       >
-                        <Text fontSize={"14px"}>{similar?.content?.substring(0, 100)}...</Text>
+                        <Text fontSize={"14px"}>
+                          {similar?.content?.substring(0, 100)}...
+                        </Text>
                       </HStack>
                     ))}
                 </Box>
@@ -915,7 +962,9 @@ const Index = () => {
                         cursor={"pointer"}
                         onClick={(e) => handleSimilarClick(related?.id)}
                       >
-                        <Text fontSize={"14px"}>{related?.content?.substring(0, 100)}...</Text>
+                        <Text fontSize={"14px"}>
+                          {related?.content?.substring(0, 100)}...
+                        </Text>
                       </VStack>
                     ))}
                 </Box>
