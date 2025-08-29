@@ -1,15 +1,13 @@
 import Header from "@/components/admin_dashboard/header";
+import QuestionCard from "@/components/admin_dashboard/questionCard";
 import {
   Avatar,
   AvatarGroup,
   Badge,
   Box,
-  Divider,
   Grid,
   GridItem,
   HStack,
-  IconButton,
-  Progress,
   Select,
   Stack,
   Text,
@@ -58,40 +56,12 @@ const Index = () => {
           >
             <Grid templateColumns="repeat(7, 1fr)" gap={6} h={"100%"} w={'100%'}>
               <GridItem as={Stack} alignItems={'end'} bgColor={"white"} w={"100%"} height={"100%"} colSpan={5} borderRadius={"15px"} >
-                <Box bgColor={'#F8F8F8'} w={'90%'} height={'166px'} borderRadius={'30px'} padding={'22px'} position={'relative'}>
-
-                  <HStack justifyContent={'space-between'} mr={'50px'} gap={'40px'}>
-                    <VStack alignItems={'start'}>
-                      <HStack>
-                        <IconButton />
-                        <Text color={'#006A71'} fontSize={'30px'} fontWeight={'extrabold'}>محمد محمدی</Text>
-                      </HStack>
-                      <Text fontSize={'16px'} color={'#00464B'}>mohammadi@gmail.com</Text>
-                    </VStack>
-                    <Divider orientation="vertical" height={'90px'} />
-                    <Box w={'500px'} >
-                      <HStack w={'100%'} justifyContent={'space-between'}>
-                        <Text color={'#006A71'}>سطح کاربری</Text>
-                        <Text color={'#B7B7B7'}>20000</Text>
-                      </HStack>
-                      <Progress colorScheme='green' size='sm' value={20} borderRadius={'10px'} my={'10px'} />
-                      <HStack w={'100%'} justifyContent={'space-between'}>
-                        <Text color={'#B7B7B7'}>10000</Text>
-                        <Text color={'#00D2A1'}>15993</Text>
-                        <Text color={'#B7B7B7'}>20000</Text>
-                      </HStack>
-                    </Box>
-                    <HStack gap={'22px'}>
-                      <Box as={VStack} justifyContent={'space-between'} height={'123px'} width={'108px'} bgColor={'#FFFFFF'} borderRadius={'20px'} padding={'24px'}>
-                        <Text width={'100%'} textAlign={'center'} fontSize={'30px'} fontWeight={'extrabold'} color={'#006A71'}>123</Text>
-                        <Text width={'100%'} textAlign={'center'} fontSize={'10px'} color={'#006A71'}>دنبال کننده‌ها</Text>
-                      </Box>
-                      <Box as={VStack} justifyContent={'space-between'} height={'123px'} width={'108px'} bgColor={'#FFFFFF'} borderRadius={'20px'} padding={'24px'}>
-                        <Text width={'100%'} textAlign={'center'} fontSize={'30px'} fontWeight={'extrabold'} color={'#006A71'}>123</Text>
-                        <Text width={'100%'} textAlign={'center'} fontSize={'10px'} color={'#006A71'}>دنبال شونده‌ها</Text>
-                      </Box>
-                    </HStack>
-                  </HStack>
+                <Box as={VStack} bgColor={'#F8F8F8'} w={'90%'} alignItems={'start'} justifyContent={'start'} gap={'20px'} height={'100%'} borderRadius={'30px'} padding={'22px'} position={'relative'}>
+                  <QuestionCard />
+                  <QuestionCard />
+                  <QuestionCard />
+                  <QuestionCard />
+                  <QuestionCard />
                 </Box>
               </GridItem>
 
