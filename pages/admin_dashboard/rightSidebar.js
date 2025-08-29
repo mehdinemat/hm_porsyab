@@ -1,29 +1,32 @@
 import {
   Box,
-  Divider,
   HStack,
   IconButton,
-  Image,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsReply } from "react-icons/bs";
 import { FaQuestion } from "react-icons/fa";
-import { IoExit, IoPersonOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
 import { RxExit } from "react-icons/rx";
 
 const menuList = [
-  { title: "پروفایل", icon: <IoPersonOutline />, link: "profile" },
-  { title: "پرسش‌ها", icon: <FaQuestion />, link: "questions" },
-  { title: "پاسخ‌ها", icon: <BsReply />, link: "answers" },
+  { title: "حساب کاربری", icon: <IoPersonOutline />, link: "dashboard" },
+  { title: "سوالات", icon: <IoPersonOutline />, link: "questions" },
+  { title: "پاسخ ها", icon: <FaQuestion />, link: "answers" },
+  { title: "دیدگاه ها", icon: <BsReply />, link: "commnets" },
+  { title: "ذخیره شده ها", icon: <BsReply />, link: "bookmarks" },
 ];
 
 const RightSidebar = () => {
   const [activePage, setActivePage] = useState("");
   const router = useRouter();
+
+
+
 
   useEffect(() => {
     setActivePage(router.asPath);
@@ -43,49 +46,41 @@ const RightSidebar = () => {
       w={"100%"}
       alignItems={"center"}
       border={"1px"}
-      borderRadius={"15px"}
+      borderRadius={"30px"}
       borderColor={"gray.200"}
-      padding={"20px"}
-      pt={"14px"}
-      bgColor={"#3646B3"}
+      padding={"13px"}
+      bg="linear-gradient(9.82deg, #006A71 -31.27%, #009875 98.14%)"
+
       height={'calc( 100vh - 70px )'}
     >
-      <Image
-        src="/dashboard/parsa_logo_admin.png"
-        width={"139px"}
-        height={"57px"}
-      />
-      {/* <Text fontWeight={'bold'} fontSize={'20px'}>حسن الماسی</Text>
-      <Text fontSize={'sm'}>مدیر</Text> */}
-      {/* <Text fontSize={'sm'}>آخرین فعالیت: ۳ روز پیش</Text> */}
-      {/* <Divider my={'20px'} /> */}
       <VStack
         w={"100%"}
         alignItems={"start"}
         padding={"0px"}
-        mt={"24px"}
         height={"100%"}
         justifyContent={"space-between"}
       >
         <VStack w={"100%"}>
           {menuList?.map((item, index) => (
             <HStack
+              height={'60px'}
               position={"relative"}
               cursor={"pointer"}
               onClick={(e) => handleClickLink(item?.link)}
               bgColor={
                 getLastPathSegment(activePage) == item?.link
-                  ? "white"
+                  ? "#3DCC928C"
                   : "#F7F7F71A"
               }
               w={"100%"}
-              borderRadius={"10px"}
+              borderRadius={"20px"}
+              padding={'22px'}
+              boxShadow={getLastPathSegment(activePage) === item?.link ? "0px 4px 7.2px 0px #0000001A" : "none"}
             >
-              {console.log(getLastPathSegment(activePage) == item?.link)}
               {
                 <Box
                   w={"2px"}
-                  height={"40px"}
+                  height={"60px"}
                   bgColor={
                     getLastPathSegment(activePage) == item?.link
                       ? "#29CCCC"
@@ -99,7 +94,7 @@ const RightSidebar = () => {
                 icon={item?.icon}
                 color={
                   getLastPathSegment(activePage) == item?.link
-                    ? "#3646B3"
+                    ? "white"
                     : "white"
                 }
                 fontSize={"20px"}
@@ -108,7 +103,7 @@ const RightSidebar = () => {
                 fontWeight={"800"}
                 color={
                   getLastPathSegment(activePage) == item?.link
-                    ? "#3646B3"
+                    ? "white"
                     : "white"
                 }
                 fontSize={"18px"}
