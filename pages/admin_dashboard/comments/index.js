@@ -1,4 +1,4 @@
-import AnswerCard from "@/components/admin_dashboard/answerCard";
+import CommentCard from "@/components/admin_dashboard/commentCard";
 import Header from "@/components/admin_dashboard/header";
 import QuestionAnswer from "@/components/admin_dashboard/questionAnswer";
 import QuestionComment from "@/components/admin_dashboard/questionComment";
@@ -9,7 +9,6 @@ import {
   GridItem,
   HStack,
   Input,
-  Select,
   Stack,
   Text,
   Textarea,
@@ -65,11 +64,11 @@ const Index = () => {
             <Grid templateColumns="repeat(7, 1fr)" gap={6} h={"100%"} w={'100%'}>
               <GridItem as={Stack} alignItems={'end'} bgColor={"white"} w={"100%"} height={"100%"} colSpan={5} borderRadius={"15px"} >
                 <Box as={VStack} bgColor={'#F8F8F8'} w={'100%'} alignItems={'start'} justifyContent={'start'} gap={'20px'} height={'100%'} borderRadius={'30px'} padding={'22px'} position={'relative'}>
-                  {<AnswerCard onClick={handleClickQuestionCard} selected={questionSelected} />}
-                  {<AnswerCard onClick={handleClickQuestionCard} selected={questionSelected} />}
-                  {<AnswerCard onClick={handleClickQuestionCard} selected={questionSelected} />}
-                  {<AnswerCard onClick={handleClickQuestionCard} selected={questionSelected} />}
-                  {<AnswerCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {<CommentCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {<CommentCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {<CommentCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {<CommentCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {<CommentCard onClick={handleClickQuestionCard} selected={questionSelected} />}
                   {/* {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
                   {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
                   {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
@@ -104,10 +103,10 @@ const Index = () => {
               </GridItem>
 
               <GridItem bgColor={"#F9F9F9"} w={"100%"} height={"100%"} colSpan={2} borderRadius={"30px"} padding={'15px'}>
-                <Box as={VStack} bgColor={'white'} padding={'12px'} borderRadius={'14px'} height={'100%'} justifyContent={'space-between'}>
+                <Box as={VStack} bgColor={'white'} padding={'12px'} borderRadius={'14px'} height={'100%'} justifyContent={'start'}>
                   <HStack w={'100%'} alignItems={'start'} color={'#006A71'}>
                     <GoPencil />
-                    <Text fontSize={'12px'} fontWeight={'extrabold'} color={'#006A71'}>ویرایش پاسخ</Text>
+                    <Text fontSize={'12px'} fontWeight={'extrabold'} color={'#006A71'}>ویرایش دیدگاه</Text>
                   </HStack>
                   <Box borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} as={VStack} justifyContent={'space-between'} alignItems={'start'}>
                     <Input color="#006A71" placeholder="کد سوال" bgColor={'#F7F7F7'} />
@@ -115,18 +114,6 @@ const Index = () => {
                   <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
                     <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>متن سوال</Text>
                     <Textarea height={'100px'} bgColor={'#F7F7F7'} />
-                  </VStack>
-                  <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
-                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>انتخاب مراجع</Text>
-                    <Select bgColor={'#F7F7F7'}>
-                      <option></option>
-                    </Select>
-                  </VStack>
-                  <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
-                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'extrabold'}>انتخاب واژگان کلیدی</Text>
-                    <Select bgColor={'#F7F7F7'}>
-                      <option></option>
-                    </Select>
                   </VStack>
                   <VStack w={'100%'}>
                     <Button leftIcon={<IoArrowBack />} bgColor={'#006A71'} w={'100%'} height={'33px'}>ثبت و ادامه</Button>

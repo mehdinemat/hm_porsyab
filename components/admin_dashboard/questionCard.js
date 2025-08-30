@@ -1,11 +1,11 @@
 import { Avatar, Badge, Box, Checkbox, Divider, HStack, IconButton, Text, VStack } from "@chakra-ui/react"
-import { IoAdd } from "react-icons/io5"
+import { IoAdd, IoClose } from "react-icons/io5"
 
-const QuestionCard = () => {
+const QuestionCard = ({ onClick, selected }) => {
   return (
     <HStack w={'100%'} alignItems={'start'} bgColor={'white'} padding={'10px'} borderRadius={'7px'}>
-      <Checkbox colorScheme="teal"></Checkbox>
-      <VStack w={'100%'} alignItems={'start'}>
+      {selected ? <IoClose onClick={onClick} fontSize={'25px'} color="#006A71" cursor={'pointer'} /> : <Checkbox colorScheme="teal" onChange={onClick}></Checkbox>}
+      <VStack w={'100%'} alignItems={'start'} justifyContent={'space-between'} height={'100%'}>
         <Text>آیا می‌توان نذر کرد که فطریه را به زلزله زده‌گان داد؟ اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را یک ...</Text>
         <HStack w={'100%'} alignItems={'start'} justifyContent={'space-between'}>
           <HStack>

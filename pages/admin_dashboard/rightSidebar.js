@@ -17,7 +17,7 @@ const menuList = [
   { title: "حساب کاربری", icon: <IoPersonOutline />, link: "dashboard" },
   { title: "سوالات", icon: <IoPersonOutline />, link: "questions" },
   { title: "پاسخ ها", icon: <FaQuestion />, link: "answers" },
-  { title: "دیدگاه ها", icon: <BsReply />, link: "commnets" },
+  { title: "دیدگاه ها", icon: <BsReply />, link: "comments" },
   { title: "ذخیره شده ها", icon: <BsReply />, link: "bookmarks" },
 ];
 

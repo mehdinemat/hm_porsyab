@@ -1,26 +1,33 @@
 import Header from "@/components/admin_dashboard/header";
+import QuestionAnswer from "@/components/admin_dashboard/questionAnswer";
 import QuestionCard from "@/components/admin_dashboard/questionCard";
+import QuestionComment from "@/components/admin_dashboard/questionComment";
 import {
-  Avatar,
-  AvatarGroup,
-  Badge,
   Box,
+  Button,
   Grid,
   GridItem,
   HStack,
   Select,
   Stack,
   Text,
+  Textarea,
   VStack
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
-import { IoEyeOutline } from "react-icons/io5";
-import { TiInputChecked } from "react-icons/ti";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoAdd, IoArrowBack, IoClose } from "react-icons/io5";
 import RightSidebar from "../rightSidebar";
 
 const Index = () => {
   const { t } = useTranslation();
+
+  const [questionSelected, setQuestionSelected] = useState(false)
+
+  const handleClickQuestionCard = (item) => {
+    setQuestionSelected(!questionSelected)
+  }
 
   return (
     // <MainLayout>
@@ -57,76 +64,74 @@ const Index = () => {
             <Grid templateColumns="repeat(7, 1fr)" gap={6} h={"100%"} w={'100%'}>
               <GridItem as={Stack} alignItems={'end'} bgColor={"white"} w={"100%"} height={"100%"} colSpan={5} borderRadius={"15px"} >
                 <Box as={VStack} bgColor={'#F8F8F8'} w={'90%'} alignItems={'start'} justifyContent={'start'} gap={'20px'} height={'100%'} borderRadius={'30px'} padding={'22px'} position={'relative'}>
-                  <QuestionCard />
-                  <QuestionCard />
-                  <QuestionCard />
-                  <QuestionCard />
-                  <QuestionCard />
+                  {<QuestionCard onClick={handleClickQuestionCard} selected={questionSelected} />}
+                  {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
+                  {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
+                  {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
+                  {!questionSelected && <QuestionCard onClick={handleClickQuestionCard} />}
+
+                  {questionSelected && <HStack gap={'30px'} height={'calc( 100% - 150px )'} alignItems={'start'} overflowY={'hidden'}>
+                    <VStack height={'100%'} overflowY={'auto'} padding={'18px'}>
+                      <HStack w={'100%'} justifyContent={'start'}>
+                        <Text fontSize={'14px'} color={'#00464B'} fontWeight={'bold'}>پاسخ ها</Text>
+                        <Text fontSize={'8px'} color={'#00464B'}>12 پاسخ</Text>
+                      </HStack>
+                      <QuestionAnswer />
+                      <QuestionAnswer />
+                      <QuestionAnswer />
+                      <QuestionAnswer />
+
+                    </VStack>
+                    <VStack height={'100%'} overflowY={'auto'} padding={'18px'}>
+                      <HStack w={'100%'} justifyContent={'start'}>
+                        <Text fontSize={'14px'} color={'#00464B'} fontWeight={'bold'}>دیدگاه ها</Text>
+                        <Text fontSize={'8px'} color={'#00464B'}>12 دیدگاه</Text>
+                      </HStack>
+                      <QuestionComment />
+                      <QuestionComment />
+                      <QuestionComment />
+                      <QuestionComment />
+
+                    </VStack>
+                  </HStack>}
+
                 </Box>
               </GridItem>
 
-              <GridItem as={VStack} bgColor={"#F9F9F9"} w={"100%"} height={"100%"} colSpan={2} borderRadius={"30px"} padding={'15px'}>
-                <HStack w={'100%'} justifyContent={'space-between'}>
-                  <Text fontSize={'30px'} color={'#00464B'} fontWeight={'extrabold'}>سوالات من</Text>
-                  <HStack w={'max-content'}>
-                    <Text fontSize={'12px'} color={'#006A71'} w={'max-content'}>مرتبط سازی بر اساس</Text>
-                    <Select w={'130px'} h={'32px'} bgColor={'white'} border={'none'} borderRadius={'13px'} color={'#006A71'} fontSize={'10px'} boxShadow={`
-        0px 1px 1px 0px #00464B1A,
-        0px 3px 3px 0px #00464B17,
-        0px 6px 4px 0px #00464B0D,
-        0px 10px 4px 0px #00464B03,
-        0px 16px 5px 0px #00464B00
-      `}>
-                      <option>سوالات بدون پاسخ</option>
-                      <option></option>
+              <GridItem bgColor={"#F9F9F9"} w={"100%"} height={"100%"} colSpan={2} borderRadius={"30px"} padding={'15px'}>
+                <Box as={VStack} bgColor={'white'} padding={'12px'} borderRadius={'14px'} height={'100%'} justifyContent={'space-between'}>
+                  <HStack w={'100%'} alignItems={'start'}>
+                    <IoAdd />
+                    <Text fontSize={'12px'} fontWeight={'extrabold'} color={'#006A71'}>افزودن سوال</Text>
+                  </HStack>
+                  <Box borderRadius={'7px'} bgColor={'#F3F3F3'} px={'11px'} py={'6px'} height={'27px'} w={'100%'} as={HStack} justifyContent={'space-between'}>
+                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>حدیث</Text>
+                    <IoIosArrowDown color="#006A71" />
+                  </Box>
+                  <Box borderRadius={'7px'} bgColor={'#F3F3F3'} px={'11px'} py={'6px'} height={'27px'} w={'100%'} as={HStack} justifyContent={'space-between'}>
+                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>منبع و سند حدیث</Text>
+                    <IoIosArrowDown color="#006A71" />
+                  </Box>
+                  <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
+                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>متن سوال</Text>
+                    <Textarea height={'100px'} />
+                  </VStack>
+                  <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
+                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>انتخاب مراجع</Text>
+                    <Select>
                       <option></option>
                     </Select>
-                  </HStack>
-                </HStack>
-                <Box as={VStack} bgColor={'white'} w={'100%'} padding={'10px'} borderRadius={'30px'} gap={'15px'}>
-                  <HStack w={'100%'} justifyContent={'space-between'}>
-                    <HStack gap={'15px'}>
-                      <HStack>
-                        <TiInputChecked />
-                        <Text>3 پسند</Text>
-                      </HStack>
-                      <HStack>
-                        <IoEyeOutline />
-                        <Text>87 بازدید</Text>
-                      </HStack>
-                      <HStack>
-                        <HiOutlineChatBubbleOvalLeftEllipsis />
-                        <Text>2 جواب</Text>
-                      </HStack>
-                    </HStack>
-                    <HStack>
-                      <Text>پاسخ ۲۱ ساعت قبل</Text>
-                      <AvatarGroup size='md' max={2}>
-                        <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                        <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                      </AvatarGroup>
-                    </HStack>
-                  </HStack>
-                  <Box borderRadius={'15px'} bgColor={'#F5F5F5'} padding={'12px'}>
-                    <Text fontSize={'18px'}>آیا می‌توان نذر کرد که فطریه را به زلزله زده‌گان داد؟ اگر نتوانیم آن را انجام دهیم، آیا می‌توان فطریه را به یک بدهکار ورشکسته داد؟</Text>
-                  </Box>
-                  <HStack w={'100%'} alignItems={'start'}>
-                    <Badge bgColor='#E6F1F1' color={'#009875'} borderRadius={'5px'} padding={'5px'}>خداشناسی</Badge>
-                    <Badge bgColor='#E6F1F1' color={'#009875'} borderRadius={'5px'} padding={'5px'}>خداشناسی</Badge>
-                    <Badge bgColor='#E6F1F1' color={'#009875'} borderRadius={'5px'} padding={'5px'}>خداشناسی</Badge>
-                    <Badge bgColor='#E6F1F1' color={'#009875'} borderRadius={'5px'} padding={'5px'}>خداشناسی</Badge>
-                  </HStack>
-                  <HStack w={'100%'} alignItems={'start'}>
-                    <HStack>
-                      <Avatar borderRadius={'10px'} height={'26px'} w={'26px'} />
-                      <Text color={'#999999'}>اسلام کوئست</Text>
-                    </HStack>
-                    <HStack>
-                      <Avatar borderRadius={'10px'} height={'26px'} w={'26px'} />
-                      <Text color={'#999999'}>آیت‌الله خامنه‌ای</Text>
-                    </HStack>
-                  </HStack>
+                  </VStack>
+                  <VStack borderRadius={'7px'} px={'11px'} py={'6px'} w={'100%'} alignItems={'start'}>
+                    <Text fontSize={'10px'} color={'#006A71'} fontWeight={'bold'}>انتخاب واژگان کلیدی</Text>
+                    <Select>
+                      <option></option>
+                    </Select>
+                  </VStack>
+                  <VStack w={'100%'}>
+                    <Button leftIcon={<IoArrowBack />} bgColor={'#006A71'} w={'100%'} height={'33px'}>ثبت و ادامه</Button>
+                    <Button leftIcon={<IoClose />} w={'100%'} height={'33px'} variant={'ghost'} color={'red'}>حذف این سوال</Button>
+                  </VStack>
                 </Box>
               </GridItem>
             </Grid>
